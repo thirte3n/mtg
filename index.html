@@ -5,10 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-  <title>MTG Counter</title>
+  <link rel="shortcut icon" href="images/favicon.ico">
+  <title></title>
 </head>
 
+<body>
+  <div class="user container card p-4">
+    <div class="card card-body">
+      <div class="username"><p class="name">Player</p></div>
+      <div class="life-counter"><p class="life-count">0</p></div>
+    </div>
+    <div class="buttons btn-group">
+      <button id="reset" class="btn btn-dark">RESET</button>
+      <button id="plus-one" class="btn btn-primary">+1</button>
+      <button id="plus-five" class="btn btn-info">+5</button>
+      <button id="minus-one" class="btn btn-default">-1</button>
+      <button id="minus-five" class="btn btn-danger">-5</button>
+    </div>
+  </div>
+  <script type="text/javascript" src="script.js"></script>
 </body>
 </html>

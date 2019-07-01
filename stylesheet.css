@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  flex-flow: row wrap;
+}
