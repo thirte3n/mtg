@@ -5,7 +5,8 @@ const BTN_PLUS_5 = document.querySelector("#plus-five");
 const BTN_MINUS_1 = document.querySelector("#minus-one");
 const BTN_MINUS_5 = document.querySelector("#minus-five")
 
-let currentLife;
+let currentLife = 20;
+LIFE.textContent = currentLife;
 
 function resetLife() {
   currentLife = 20;
