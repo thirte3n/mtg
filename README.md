@@ -89,17 +89,17 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3 - see th
 ## Database Properties
 
 * **users**
-  - username - Text, required
-  - firstName - Text, required
-  - lastName - Integer, required
-  - password - Integer, defaults to `1`
-  - dateRegistered -
+  - username - String, required, minlength: 4, maxlength: 20, trim, lowercase
+  - firstName - String, required, minlength: 1, maxlength: 20
+  - lastName - String, required, minlength: 1, maxlength: 20
+  - password - String, required, minlength: 8, maxlength: 20
+  - dateRegistered - Date, default: Date.now
 
 ## Routes
 
 **/api/users**
 - GET
-  - Returns a 200 response containing all saved currently-employed employees (`is_current_employee` is equal to `1`) on the `employees` property of the response body
+  - Returns a 200 response containing all username on the `users` property of the response body
 - POST
   - Creates a new employee with the information from the `employee` property of the request body and saves it to the database. Returns a 201 response with the newly-created employee on the `employee` property of the response body
   - If any required fields are missing, returns a 400 response

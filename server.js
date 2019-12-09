@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 module.exports = app;
 
 // DB config
-const db = require('./config/keys').MongoURI;
+const db = process.env.TEST_DATABASE || require('./config/keys').MongoURI;
 
 // Connect to Mongo
 mongoose.connect(db,
@@ -13,7 +13,7 @@ mongoose.connect(db,
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
-  .then(() => console.log('Connected to MongoDB'))
+  .then(() => console.log(`Connected to ${db == process.env.TEST_DATABASE ? 'test database' : 'MongoDB Atlas'}`))
   .catch(err => console.log(err));
 
 // body-parser
