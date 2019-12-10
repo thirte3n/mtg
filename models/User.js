@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     maxlength: 20,
   },
   dateRegistered: {
-    type: String,
+    type: Date,
     default: Date.now
   }
 });
