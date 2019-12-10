@@ -11,7 +11,8 @@ const db = process.env.TEST_DATABASE || require('./config/keys').MongoURI;
 mongoose.connect(db,
   {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
   })
   .then(() => console.log(`Connected to ${db == process.env.TEST_DATABASE ? 'test database' : 'MongoDB Atlas'}`))
   .catch(err => console.log(err));

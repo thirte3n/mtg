@@ -2,11 +2,11 @@
 
 Magic the Gathering App
 
-## Getting Started
+## Getting Started **TODO**
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-### Prerequisites
+### Prerequisites **TODO**
 
 Node.js
 
@@ -14,7 +14,7 @@ Node.js
 Give examples
 ```
 
-### Installing
+### Installing **TODO**
 
 A step by step series of examples that tell you how to get a development env running
 
@@ -34,17 +34,9 @@ End with an example of getting some data out of the system or using it for a lit
 
 ## Running the tests
 
-Run `$ npm install` to run necessary dependencies then run `$ npm test` to run automated tests.
+To run the tests, open the root project directory in your terminal. Run `npm install` to install all necessary dependencies then run `npm test` to run automated tests.
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
+### Break down into end to end tests **TODO**
 
 Explain what these tests test and why
 
@@ -52,7 +44,15 @@ Explain what these tests test and why
 Give an example
 ```
 
-## Deployment
+### And coding style tests **TODO**
+
+Explain what these tests test and why
+
+```
+Give an example
+```
+
+## Deployment **TODO**
 
 Add additional notes about how to deploy this on a live system
 
@@ -70,7 +70,7 @@ Add additional notes about how to deploy this on a live system
 * [cors] - cors middleware
 * [morgan] - Logging middleware
 
-## Versioning
+## Versioning **TODO**
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
 
@@ -95,23 +95,23 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3 - see th
   - password - String, required, minlength: 8, maxlength: 20
   - dateRegistered - Date, default: Date.now
 
-## Routes
+## API Routes
 
 **/api/users**
 - GET
-  - Returns a 200 response containing all username on the `users` property of the response body
+  - Returns a 200 response containing all username and id on the `users` property of the response body
 - POST
-  - Creates a new employee with the information from the `employee` property of the request body and saves it to the database. Returns a 201 response with the newly-created employee on the `employee` property of the response body
+  - Creates a new user with the information from the `user` property of the request body and saves it to the database. Returns a 201 response with the newly-created user on the `user` property of the response body
   - If any required fields are missing, returns a 400 response
 
 **/api/users/:userId**
 - GET
-  - Returns a 200 response containing the employee with the supplied employee ID on the `employee` property of the response body
-  - If an employee with the supplied employee ID doesn't exist, returns a 404 response
+  - Returns a 200 response containing the user with the supplied username on the `user` property of the response body
+  - If an user with the supplied username doesn't exist, returns a 404 response
 - PUT
-  - Updates the employee with the specified employee ID using the information from the `employee` property of the request body and saves it to the database. Returns a 200 response with the updated employee on the `employee` property of the response body
+  - Updates the user with the specified username using the information from the `user` property of the request body and saves it to the database. Returns a 200 response with the updated user on the `user` property of the response body
   - If any required fields are missing, returns a 400 response
-  - If an employee with the supplied employee ID doesn't exist, returns a 404 response
+  - If an user with the supplied username doesn't exist, returns a 404 response
 - DELETE
-  - Updates the employee with the specified employee ID to be unemployed (`is_current_employee` equal to `0`). Returns a 200 response.
-  - If an employee with the supplied employee ID doesn't exist, returns a 404 response
+  - Deletes the user with the specified username from the database. Returns a 200 response.
+  - If an username with the supplied username doesn't exist, returns a 404 response
