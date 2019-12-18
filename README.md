@@ -58,17 +58,19 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Express](http://www.dropwizard.io/1.0.2/docs/) - Web framework
-* [Mongoose](#) - MongoDB ORM
+* [Express](http://expressjs.com/) - Web framework
+* [Mongoose](https://mongoosejs.com/) - MongoDB ORM
 
-* [Nodemon]
+* [Nodemon](https://nodemon.io/)
 
-* [Mocha]
-* [Chai]
-* [Supertest]
+* [Mocha](https://mochajs.org/)
+* [Chai Assertion Library](https://www.chaijs.com/)
+* [SuperTest](https://github.com/visionmedia/supertest#readme)
 
-* [cors] - cors middleware
-* [morgan] - Logging middleware
+* [cors](https://github.com/expressjs/cors#readme) - cors middleware
+* [morgan](https://github.com/expressjs/morgan#readme) - Logging middleware
+
+* [Express Handlebars](https://github.com/ericf/express-handlebars)
 
 ## Versioning **TODO**
 
