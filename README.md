@@ -72,6 +72,9 @@ Add additional notes about how to deploy this on a live system
 
 * [Express Handlebars](https://github.com/ericf/express-handlebars)
 
+* [connect-flash](https://www.npmjs.com/package/connect-flash) - For saving flash messages to the request body
+* [express-session](https://github.com/expressjs/session#readme) *required for connect-flash
+
 ## Versioning **TODO**
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).

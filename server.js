@@ -1,7 +1,11 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
+const morgan = require('morgan');
 const mongoose = require('mongoose');
 const exphbs = require('express-handlebars');
+const flash = require('connect-flash');
+const session = require('express-session');
 
 module.exports = app;
 
@@ -25,6 +29,33 @@ app.set('view engine', 'handlebars');
 // Body Parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// CORS
+app.use(cors());
+
+// Morgan logging
+app.use(morgan('tiny'));
+
+// express-session
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true, // changed to true (docs was fallse)
+  saveUninitialized: true
+  // cookie: { secure: true } // commented out
+}));
+
+// connect-flash
+// Saves to req.flash object
+app.use(flash());
+
+// Global variables - to use req.flash messages in template engines
+app.use((req, res, next) => {
+  // Saves req.flash messages to global variables (res.locals)
+  // Any calls to req.flash('msg_success') are saved here
+  res.locals.msg_success = req.flash('msg_success');
+
+  next();
+});
 
 // Routes
 const apiRouter = require('./routes/api/api');

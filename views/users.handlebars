@@ -8,6 +8,7 @@
       <th scope="col">Last Name</th>
       <th scope="col">Password</th>
       <th scope="col">Date Registered</th>
+      <th scope="col">Admin Rights</th>
     </tr>
     {{#each users}}
     <tr>
@@ -18,6 +19,7 @@
       <td>{{ this.lastName }}</td>
       <td>{{ this.password }}</td>
       <td>{{ this.dateRegistered }}</td>
+      <td>{{ this.isAdmin }}</td>
     </tr>
     {{/each}}
   </table>
