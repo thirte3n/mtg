@@ -26,6 +26,9 @@ mongoose.connect(db,
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
+// Public directory
+app.use(express.static('public'));
+
 // Body Parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
