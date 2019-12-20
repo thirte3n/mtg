@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
@@ -10,8 +11,9 @@ const session = require('express-session');
 module.exports = app;
 
 // DB config
-const db = process.env.TEST_DATABASE || require('./config/keys').MongoURI;
-
+// const db = process.env.TEST_DATABASE || require('./config/keys').MongoURI;
+const db = process.env.TEST_DATABASE || process.env.MongoURI;
+console.log(process.env.MongoURI);
 // Connect to Mongo
 mongoose.connect(db,
   {

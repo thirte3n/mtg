@@ -110,6 +110,12 @@ usersRouter.route('/login')
     res.render('login', {
       title: 'Log in'
     });
+  })
+  .post((req, res, next) => {
+    res.render('dashboard', {
+      title: 'MTG',
+      username: req.body.username
+    });
   });
 
 // route /users/
