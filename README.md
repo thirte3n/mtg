@@ -72,10 +72,15 @@ Add additional notes about how to deploy this on a live system
 
 * [Express Handlebars](https://github.com/ericf/express-handlebars)
 
+* [bcryptjs](https://github.com/dcodeIO/bcrypt.js#readme)
+
 * [connect-flash](https://www.npmjs.com/package/connect-flash) - For saving flash messages to the request body
 * [express-session](https://github.com/expressjs/session#readme) *required for connect-flash
 
 * [dotenv](https://github.com/motdotla/dotenv#readme)
+
+* [passport](http://www.passportjs.org/)
+* [passport-local](https://github.com/jaredhanson/passport-local#readme)
 
 ## Versioning **TODO**
 

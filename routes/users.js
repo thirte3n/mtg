@@ -2,6 +2,7 @@ const express = require('express');
 const usersRouter = express.Router();
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const passport = require('passport');
 
 // Validate registration form
 const validateInput = (req, res, next) => {
@@ -112,10 +113,12 @@ usersRouter.route('/login')
     });
   })
   .post((req, res, next) => {
-    res.render('dashboard', {
-      title: 'MTG',
-      username: req.body.username
-    });
+    passport.authenticate('local', {
+      successRedirect: '/dashboard',
+      failureRedirect: '/users/login',
+      // saves error message to req.flash
+      failureFlash: true
+    })(req, res, next);
   });
 
 // route /users/

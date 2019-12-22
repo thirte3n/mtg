@@ -7,4 +7,11 @@ indexRouter.get('/', (req, res) => {
   });
 });
 
+indexRouter.get('/dashboard', (req, res) => {
+  res.render('dashboard', {
+    title: "MTG",
+    username: req.user.username
+  });
+});
+
 module.exports = indexRouter;

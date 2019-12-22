@@ -7,8 +7,12 @@ const mongoose = require('mongoose');
 const exphbs = require('express-handlebars');
 const flash = require('connect-flash');
 const session = require('express-session');
+const passport = require('passport');
 
 module.exports = app;
+
+// Passport local strategy config
+require('./config/passport')(passport);
 
 // DB config
 // const db = process.env.TEST_DATABASE || require('./config/keys').MongoURI;
@@ -49,6 +53,10 @@ app.use(session({
   // cookie: { secure: true } // commented out
 }));
 
+// Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 // connect-flash
 // Saves to req.flash object
 app.use(flash());
@@ -59,6 +67,8 @@ app.use((req, res, next) => {
   // Any calls to req.flash('msg_success') are saved here
   res.locals.msg_success = req.flash('msg_success');
 
+  // Save passport error flash message to global variables
+  res.locals.error = req.flash('error');
   next();
 });
 
