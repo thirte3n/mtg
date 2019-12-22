@@ -13,7 +13,16 @@ const validateInput = (req, res, next) => {
   if (!req.newUsername || !req.newFirstName || !req.newLastName || !req.newPassword || req.newUsername.length < 4 || req.newUsername.length > 20 || req.newFirstName.length < 1 || req.newFirstName.length > 20 || req.newLastName.length < 1 || req.newLastName.length > 20 || req.newPassword.length < 8 || req.newPassword.length > 20) {
     res.sendStatus(400);
   } else {
-    next();
+    // Checks if username is already taken
+    User.findOne({ username: req.newUsername })
+      .then(user => {
+        if (user) {
+          res.sendStatus(400);
+        } else {
+          next();
+        }
+      })
+      .catch(err => console.log(err));
   }
 };
 
@@ -41,10 +50,15 @@ usersRouter.route('/')
         bcrypt.hash(req.newPassword, salt)
           .then(hash => {
             newUser.password = hash;
-            newUser.save(err => {
-              if (err) console.log(err);
-              res.status(201).json({ user: newUser });
-            });
+            // newUser.save(err => {
+            //   if (err) console.log(err);
+            //   res.status(201).json({ user: newUser });
+            // });
+            newUser.save()
+              .then(user => {
+                res.status(201).json({ user });
+              })
+              .catch(err => console.log(err));
           })
           .catch(err => console.log(err));
       })
