@@ -13,18 +13,21 @@ const validateInput = (req, res, next) => {
   if (!req.newUsername || !req.newFirstName || !req.newLastName || !req.newPassword || req.newUsername.length < 4 || req.newUsername.length > 20 || req.newFirstName.length < 1 || req.newFirstName.length > 20 || req.newLastName.length < 1 || req.newLastName.length > 20 || req.newPassword.length < 8 || req.newPassword.length > 20) {
     res.sendStatus(400);
   } else {
-    // Checks if username is already taken
-    User.findOne({ username: req.newUsername })
-      .then(user => {
-        if (user) {
-          res.sendStatus(400);
-        } else {
-          next();
-        }
-      })
-      .catch(err => console.log(err));
+    next();
   }
 };
+
+const checkUsernameExists = (req, res, next) => {
+  User.findOne({ username: req.newUsername })
+    .then(user => {
+      if (user) {
+        res.sendStatus(400);
+      } else {
+        next();
+      }
+    })
+    .catch(err => console.log(err));
+}
 
 // route /api/users
 usersRouter.route('/')
@@ -36,7 +39,7 @@ usersRouter.route('/')
       .catch(err => { throw new Error(err); });
   })
 
-  .post(validateInput, async (req, res, next) => {
+  .post(validateInput, checkUsernameExists, async (req, res, next) => {
     let newUser = new User({
       username: req.newUsername,
       firstName: req.newFirstName,
