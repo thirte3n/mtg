@@ -1,8 +1,8 @@
 const express = require('express');
 const indexRouter = express.Router();
-const { ensureAuthenticated } = require('../controllers/auth');
+const { ensureAuthenticated, alreadyAuthenticated } = require('../controllers/auth');
 
-indexRouter.get('/', (req, res) => {
+indexRouter.get('/', alreadyAuthenticated, (req, res) => {
   res.render('home', {
     title: 'MTG'
   });
@@ -11,7 +11,8 @@ indexRouter.get('/', (req, res) => {
 indexRouter.get('/dashboard', ensureAuthenticated, (req, res) => {
   res.render('dashboard', {
     title: 'MTG',
-    name: req.user.firstName + ' ' + req.user.lastName
+    name: req.user.firstName + ' ' + req.user.lastName,
+    isAdmin: req.user.isAdmin
   });
 });
 

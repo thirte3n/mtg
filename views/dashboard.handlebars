@@ -1,4 +1,10 @@
+{{> messages }}
 <div>
   Hello {{ name }}
 </div>
+
+{{#if isAdmin}}
+<a href="/users" class="btn btn-danger">USERS</a>
+{{/if}}
+
 <a href="/users/logout" class="btn btn-secondary">Logout</a>

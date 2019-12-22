@@ -3,6 +3,7 @@ const usersRouter = express.Router();
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const passport = require('passport');
+const { alreadyAuthenticated, ensureAdminRights } = require('../controllers/auth');
 
 // Validate registration form
 const validateInput = (req, res, next) => {
@@ -74,7 +75,7 @@ const validateInput = (req, res, next) => {
 
 // route /users/signup
 usersRouter.route('/signup')
-  .get((req, res, next) => {
+  .get(alreadyAuthenticated, (req, res, next) => {
     res.render('signup', {
       title: 'Create your account'
     });
@@ -107,7 +108,7 @@ usersRouter.route('/signup')
 
 // route /users/login
 usersRouter.route('/login')
-  .get((req, res, next) => {
+  .get(alreadyAuthenticated, (req, res, next) => {
     res.render('login', {
       title: 'Log in'
     });
@@ -128,7 +129,7 @@ usersRouter.get('/logout', (req, res, next) => {
 });
 
 // route /users/
-usersRouter.get('/', (req, res, next) => {
+usersRouter.get('/', ensureAdminRights, (req, res, next) => {
   User.find({})
     .then(users => {
       res.render('users', {
