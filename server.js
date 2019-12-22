@@ -64,10 +64,8 @@ app.use(flash());
 // Global variables - to use req.flash messages in template engines
 app.use((req, res, next) => {
   // Saves req.flash messages to global variables (res.locals)
-  // Any calls to req.flash('msg_success') are saved here
   res.locals.msg_success = req.flash('msg_success');
-
-  // Save passport error flash message to global variables
+  res.locals.msg_error = req.flash('msg_error');
   res.locals.error = req.flash('error');
   next();
 });

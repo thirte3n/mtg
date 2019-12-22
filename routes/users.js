@@ -121,6 +121,12 @@ usersRouter.route('/login')
     })(req, res, next);
   });
 
+usersRouter.get('/logout', (req, res, next) => {
+  req.logout();
+  req.flash('msg_success', 'You are logged out');
+  res.redirect('/users/login');
+});
+
 // route /users/
 usersRouter.get('/', (req, res, next) => {
   User.find({})
