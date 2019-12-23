@@ -17,7 +17,7 @@ require('./config/passport')(passport);
 // DB config
 // const db = process.env.TEST_DATABASE || require('./config/keys').MongoURI;
 const db = process.env.TEST_DATABASE || process.env.MongoURI;
-console.log(process.env.MongoURI);
+
 // Connect to Mongo
 mongoose.connect(db,
   {
@@ -67,6 +67,7 @@ app.use((req, res, next) => {
   res.locals.msg_success = req.flash('msg_success');
   res.locals.msg_error = req.flash('msg_error');
   res.locals.error = req.flash('error');
+  res.locals.user = req.user || null;
   next();
 });
 
