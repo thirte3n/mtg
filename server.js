@@ -75,10 +75,12 @@ app.use((req, res, next) => {
 const apiRouter = require('./routes/api/api');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const errorsRouter = require('./routes/errors');
 
 app.use('/api', apiRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('*', errorsRouter);
 
 const PORT = process.env.PORT || 3000;
 
