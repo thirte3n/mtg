@@ -7,6 +7,10 @@
   {{!-- Bootstrap theme --}}
   <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
 
+  {{#each css}}
+  <link rel="stylesheet" href="/stylesheets/{{this}}">
+  {{/each}}
+
   {{!-- <script src="https://kit.fontawesome.com/ad558666f4.js" crossorigin="anonymous"></script> --}}
   {{!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> --}}
 

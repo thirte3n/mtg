@@ -7,7 +7,7 @@ indexRouter.get('/', alreadyAuthenticated, (req, res) => {
 });
 
 indexRouter.get('/dashboard', ensureAuthenticated, (req, res) => {
-  res.render('dashboard');
+  res.render('dashboard', { css: ['life-counter.css'] });
 });
 
 module.exports = indexRouter;

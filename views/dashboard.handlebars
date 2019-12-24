@@ -3,3 +3,22 @@
 <div>
   Hello {{ user.firstName }} {{ user.lastName }}
 </div>
+<div class="container">
+  <div class="user">
+    <!-- <img src="https://s-media-cache-ak0.pinimg.com/originals/5b/8d/35/5b8d354c534c5f4f3404c84a12d892eb.jpg" alt="Magic the Gathering land logos> -->
+    <img src="http://www.fourletternerd.com/wp-content/uploads/2013/10/magic_the_gathering_symbols_by_thekagestar-d37388h.png" alt="Magic the Gathering land logos">
+    <div class="user-info">
+      <div class="username"><p class="name">Player</p></div>
+      <div class="life-counter"><p class="life-count"></p></div>
+    </div>
+    <div class="buttons">
+      <button id="reset" class="btn btn-dark m-1">RESET</button>
+      <button id="plus-one" class="btn btn-success m-1">+1</button>
+      <button id="plus-five" class="btn btn-success m-1">+5</button>
+      <button id="minus-one" class="btn btn-danger m-1">-1</button>
+      <button id="minus-five" class="btn btn-danger m-1">-5</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/life-counter.js"></script>
