@@ -1,6 +1,6 @@
 @localURL = http://localhost:3000/api
 @prodURL = http://mtg.justingajitos.com/api
-@username = gadj
+@username = chosenone
 
 ###
 
@@ -15,10 +15,10 @@ Content-Type: application/json
 
 {
 	"user": {
-		"username": "Gadj",
-		"firstName": "Gadj",
-		"lastName": "Gajitos",
-		"password": "qwer1234"
+		"username": "{{username}}",
+		"firstName": "Harry",
+		"lastName": "Potter",
+		"password": "ginnyweasley"
 	}
 }
 
@@ -35,10 +35,10 @@ Content-Type: application/json
 
 {
 	"user": {
-		"username": "Gadj",
-		"firstName": "Gadji",
-		"lastName": "Gajitos",
-		"password": "qwer12345"
+		"username": "{{username}}",
+		"firstName": "Harry",
+		"lastName": "Potter",
+		"password": "ginervaweasley"
 	}
 }
 

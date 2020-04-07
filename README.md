@@ -101,29 +101,217 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3 - see th
 ## Database Properties
 
 * **users**
-  - username - String, required, minlength: 4, maxlength: 20, trim, lowercase
-  - firstName - String, required, minlength: 1, maxlength: 20
-  - lastName - String, required, minlength: 1, maxlength: 20
-  - password - String, required, minlength: 8, maxlength: 20
-  - dateRegistered - Date, default: Date.now
+  * username - String, required, minlength: 4, maxlength: 20, trim, lowercase
+  * firstName - String, required, minlength: 1, maxlength: 20
+  * lastName - String, required, minlength: 1, maxlength: 20
+  * password - String, required, minlength: 8, maxlength: 20
+  * dateRegistered - Date, default: Date.now
 
 ## API Routes
 
 **/api/users**
-- GET
-  - Returns a 200 response containing all username and id on the `users` property of the response body
-- POST
-  - Creates a new user with the information from the `user` property of the request body and saves it to the database. Returns a 201 response with the newly-created user on the `user` property of the response body
-  - If any required fields are missing, returns a 400 response
+* **GET**
+  * Returns json data containing an array of all users each with their own data
+  * **URL Params**\
+    None
+  * **Data Params**\
+    None
+  * **Success Response**
+    * Code: 200\
+      Content:
+      ```
+      {
+        "users": [
+          {
+            "_id": "1234567890abcdef12345678",
+            "username": "Gaji"
+          },
+          {
+            "_id": "1234567890abcdef12345679",
+            "username": "Justin"
+          }
+        ]
+      }
+      ```
+  * **Error Response**\
+    None
+  * **Sample Call**\
+    `GET http://mtg.justingajitos.com/api/users HTTP/1.1`
+* **POST**
+  * Creates a new user. Returns json data of the newly-created user.
+  * **URL Params**\
+    None
+  * **Data Params**
+    * Required
+      ```
+      {
+        "user" {
+          "username": String, Required,
+          "firstName": String, Required,
+          "lastName": String, Required,
+          "password": String, Minimum Length = 8, Required
+        }
+      }
+      ```
+  * **Success Response**
+    * Code: 201\
+      Content:
+      ```
+      {
+        "user": {
+          "isAdmin": false,
+          "_id": "5e8bba635f1e73050cffc76a",
+          "username": "gadj",
+          "firstName": "Gadj",
+          "lastName": "Gajitos",
+          "password": "$2a$10$s7Dmyj/u5cWjPGsbNzGGJe3CWXH4CbTzgsZhethAJ6NGT2/T0Up0e",
+          "dateRegistered": "2020-04-06T23:25:23.672Z",
+          "__v": 0
+        }
+      }
+      ```
+  * **Error Response**
+    * A required fields are missing or data type is incorrect
+      * Code: 400\
+        Content: `Bad Request`
+    * Username already exists
+      * Code: 400\
+        Content: `Bad Request`
+  * **Sample Call**
+    ```
+    POST mtg.justingajitos.com/api/users HTTP/1.1
+    Content-Type: application/json
+
+    {
+      "user": {
+        "username": "chosenone",
+        "firstName": "Harry",
+        "lastName": "Potter",
+        "password": "ginnyweasley"
+      }
+    }
+    ```
 
 **/api/users/:userId**
-- GET
-  - Returns a 200 response containing the user with the supplied username on the `user` property of the response body
-  - If an user with the supplied username doesn't exist, returns a 404 response
-- PUT
-  - Updates the user with the specified username using the information from the `user` property of the request body and saves it to the database. Returns a 200 response with the updated user on the `user` property of the response body
-  - If any required fields are missing, returns a 400 response
-  - If an user with the supplied username doesn't exist, returns a 404 response
-- DELETE
-  - Deletes the user with the specified username from the database. Returns a 200 response.
-  - If an username with the supplied username doesn't exist, returns a 404 response
+* **GET**
+  * Returns json data of a single user
+  * **URL Params**
+    * Required\
+      `userId=[String]`
+  * **Data Params**\
+    None
+  * **Success Response**
+    * Code: 200
+      Content:
+      ```
+      {
+        "user": {
+          "isAdmin": false,
+          "_id": "5e8bf8805f1e73050cffc773",
+          "username": "chosenone",
+          "firstName": "Harry",
+          "lastName": "Potter",
+          "password": "$2a$10$cyUd2NWFWI4TieMuB05tBekyiUFYnFuzTWsNX6F3iJHgW1IKxELNW",
+          "dateRegistered": "2020-04-07T03:50:24.348Z",
+          "__v": 0
+        }
+      }
+      ```
+  * **Error Response**
+    * Username does not exist
+      * Code: 404\
+        Content: `Not Found`
+  * **Sample Call**\
+    `GET http://mtg.justingajitos.com/api/users/chosenone HTTP/1.1`
+* **PUT**
+  * Updates the user information
+  * **URL Params**
+    * Required\
+      `userId=[String]`
+  * **Data Params**
+    * Required
+      ```
+      {
+        "user": {
+          "username": "{{username}}",
+          "firstName": "Harry",
+          "lastName": "Potter",
+          "password": "ginnyweasley"
+        }
+      }
+      ```
+  * **Success Response**
+    * Code: 200\
+      Content:
+      ```
+      {
+        "user": {
+          "isAdmin": false,
+          "_id": "5e8bfeba5f1e73050cffc775",
+          "username": "chosenone",
+          "firstName": "Harry",
+          "lastName": "Potter",
+          "password": "$2a$10$9KDRyg74MtNunAStVMl5L.tiPpXxn4fPLJFT/ZEP.E8aYP3miPNa6",
+          "dateRegistered": "2020-04-07T04:16:58.713Z",
+          "__v": 0
+        }
+      }
+      ```
+  * **Error Response**
+    * Any required payload is missing
+      * Code: 400\
+        Content: `Bad Request`
+    * Username does not exist
+      * Code: 404\
+        Content: `Not Found`
+  * **Sample Call**
+    ```
+    PUT http://mtg.justingajitos.com/api/users/chosenone HTTP/1.1
+    Content-Type: application/json
+
+    {
+      "user": {
+        "username": "{{username}}",
+        "firstName": "Harry",
+        "lastName": "Potter",
+        "password": "ginervaweasley"
+      }
+    }
+    ```
+* **DELETE**
+  * Deletes a user
+  * **URL Params**
+    * Required\
+      `userId=[String]`
+  * **Data Params**\
+    None
+  * **Success Response**
+    * Code: 200
+      Content: `OK`
+  * **Error Response**
+    * Username does not exist
+      * Code: 404
+        Content: `NOT FOUND`
+  * **Sample Call**
+    `DELETE http://mtg.justingajitos.com/api/users/chosenone HTTP/1.1`
+
+**/api/login**
+* **POST**
+  * Log in with proper credentials and returns a json web token
+  * **URL Params**\
+    None
+  * **Data Params**\
+    None
+  * **Success Response**
+    * Code:
+      Content:
+      ```
+      ```
+  * **Error Response**
+    * Error
+      * Code:
+        Content: ``
+  * **Sample Call**
+    ```
+    ```
+  * **Notes**
