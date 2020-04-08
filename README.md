@@ -233,7 +233,7 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3 - see th
       ```
       {
         "user": {
-          "username": "{{username}}",
+          "username": "chosenone",
           "firstName": "Harry",
           "lastName": "Potter",
           "password": "ginnyweasley"
@@ -271,7 +271,7 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3 - see th
 
     {
       "user": {
-        "username": "{{username}}",
+        "username": "chosenone",
         "firstName": "Harry",
         "lastName": "Potter",
         "password": "ginervaweasley"
@@ -301,7 +301,15 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3 - see th
   * **URL Params**\
     None
   * **Data Params**\
-    None
+    * Required
+      ```
+      {
+        "user": {
+          "username": "chosenone",
+          "password": "ginnyweasley"
+        }
+      }
+      ```
   * **Success Response**
     * Code:
       Content:
