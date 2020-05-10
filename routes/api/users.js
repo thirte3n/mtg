@@ -1,6 +1,7 @@
 const express = require('express');
 const usersRouter = express.Router();
 const bcrypt = require('bcryptjs');
+const { checkAuth } = require('../../controllers/auth');
 
 const User = require('../../models/User');
 
@@ -84,7 +85,7 @@ usersRouter.param('username', (req, res, next, username) => {
 
 // route /api/users/:username
 usersRouter.route('/:username')
-  .get((req, res, next) => {
+  .get(checkAuth, (req, res, next) => {
     res.status(200).json({ user: req.user });
   })
 

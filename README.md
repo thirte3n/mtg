@@ -200,6 +200,8 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3 - see th
       `userId=[String]`
   * **Data Params**\
     None
+  * **Headers**\
+    `Authorization: Bearer [token]`
   * **Success Response**
     * Code: 200
       Content:
@@ -222,7 +224,10 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3 - see th
       * Code: 404\
         Content: `Not Found`
   * **Sample Call**\
-    `GET http://mtg.justingajitos.com/api/users/chosenone HTTP/1.1`
+    ```
+    GET http://mtg.justingajitos.com/api/users/chosenone HTTP/1.1
+    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdhamkiLCJ1c2VySWQiOiI1ZGZlNmRiMTIxOGI4MjRmMWZkODg3ZjYiLCJpYXQiOjE1ODkxNDI3MzQsImV4cCI6MTU4OTE0NjMzNH0.-iO4B-XgDfdDinMAsn5hV3GJKK_H0Yow8GNOAT4pOdw
+    ```
 * **PUT**
   * Updates the user information
   * **URL Params**
@@ -311,14 +316,31 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3 - see th
       }
       ```
   * **Success Response**
-    * Code:
+    * Code: 200
       Content:
       ```
+      {
+        "message": "Auth successful",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdhamkiLCJ1c2VySWQiOiI1ZGZlNmRiMTIxOGI4MjRmMWZkODg3ZjYiLCJpYXQiOjE1ODkxNDE0NjksImV4cCI6MTU4OTE0NTA2OX0.-z9wDCHJOx57dcW8tUj1x9ZLipHuZTdc6b9kqCV8F_I"
+      }
       ```
   * **Error Response**
-    * Error
-      * Code:
-        Content: ``
+    * Username does not exist
+      * Code: 401
+        Content:
+        ```
+        {
+          "message": "Auth failed"
+        }
+        ```
+    * Incorrect password
+      * Code: 401
+        Content:
+        ```
+        {
+          "message": "Auth failed"
+        }
+        ```
   * **Sample Call**
     ```
     ```

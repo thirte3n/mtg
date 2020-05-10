@@ -1,16 +1,15 @@
-@localURL = http://localhost:3000/api
-@prodURL = http://mtg.justingajitos.com/api
+@URL = http://localhost:3000/api
+# @URL = http://mtg.justingajitos.com/api
 @username = chosenone
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdhamkiLCJ1c2VySWQiOiI1ZGZlNmRiMTIxOGI4MjRmMWZkODg3ZjYiLCJpYXQiOjE1ODkxNDI3MzQsImV4cCI6MTU4OTE0NjMzNH0.-iO4B-XgDfdDinMAsn5hV3GJKK_H0Yow8GNOAT4pOdw
 
 ###
 
-# GET {{localURL}}/users HTTP/1.1
-GET {{prodURL}}/users HTTP/1.1
+GET {{URL}}/users HTTP/1.1
 
 ###
 
-# POST {{localURL}}/users HTTP/1.1
-POST {{prodURL}}/users HTTP/1.1
+POST {{URL}}/users HTTP/1.1
 Content-Type: application/json
 
 {
@@ -24,13 +23,12 @@ Content-Type: application/json
 
 ###
 
-# GET {{localURL}}/users/{{username}} HTTP/1.1
-GET {{prodURL}}/users/{{username}} HTTP/1.1
+GET {{URL}}/users/{{username}} HTTP/1.1
+Authorization: Bearer {{token}}
 
 ###
 
-# PUT {{localURL}}/users/{{username}} HTTP/1.1
-PUT {{prodURL}}/users/{{username}} HTTP/1.1
+PUT {{URL}}/users/{{username}} HTTP/1.1
 Content-Type: application/json
 
 {
@@ -44,17 +42,38 @@ Content-Type: application/json
 
 ###
 
-# DELETE {{localURL}}/users/{{username}} HTTP/1.1
-DELETE {{prodURL}}/users/{{username}} HTTP/1.1
+DELETE {{URL}}/users/{{username}} HTTP/1.1
 
 ###
 
-POST http://localhost:3000/api/login HTTP/1.1
+POST {{URL}}/login HTTP/1.1
 Content-Type: application/json
 
 {
 	"user": {
 		"username": "gaji",
+		"password": "gajigaji"
+	}
+}
+
+###
+
+POST {{URL}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+	"user": {
+		"username": "gaji"
+	}
+}
+
+###
+
+POST {{URL}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+	"user": {
 		"password": "gajigaji"
 	}
 }

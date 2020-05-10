@@ -1,4 +1,8 @@
+const jwt = require('jsonwebtoken');
+
 module.exports = {
+  // controllers for server-side rendering
+
   ensureAuthenticated: function(req, res, next) {
     // req.isAuthenticated is made by passport
     if (req.isAuthenticated()) {
@@ -23,5 +27,24 @@ module.exports = {
 
     req.flash('msg_error', 'You do not have the rights to view this resource');
     res.redirect('/dashboard');
+  },
+
+  // controllers for API
+
+  checkAuth: function(req, res, next) {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      console.log(token);
+      const decoded = jwt.verify(
+        token,
+        process.env.JWT_KEY
+      );
+      req.userData = decoded;
+      next();
+    } catch (err) {
+      return res.status(401).json({
+        message: 'Auth failed'
+      });
+    }
   }
 };
