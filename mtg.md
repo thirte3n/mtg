@@ -751,4 +751,18 @@ root
 --routes/api/v1/
 ---api.js
 
+1. Setup create-react-app
+2. Install redux, react-redux
+3. Setup redux
+   1. Create types
+   2. Create actions
+   3. Create reducers
+   4. Create rootReducer
+   5. Create store in src/index.js
+
+Number
+History
+Buttons
+Mode
+
 ## Testing
