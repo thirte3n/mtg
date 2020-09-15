@@ -1,8 +1,4 @@
-import {
-  INCREMENT_COUNTER,
-  DECREMENT_COUNTER,
-  UPDATE_HISTORY
-} from '../actions/types';
+import { MANIPULATE_COUNTER, UPDATE_HISTORY } from '../actions/types';
 
 const initialState = {
   lifeCounter: 20,
@@ -12,18 +8,10 @@ const initialState = {
 
 const counterReducer = (state = initialState, action) => {
   switch (action.type) {
-    case INCREMENT_COUNTER:
+    case MANIPULATE_COUNTER:
       return {
         ...state,
-        [action.payload.counterSelector]:
-          state[action.payload.counterSelector] + action.payload.amount
-      };
-
-    case DECREMENT_COUNTER:
-      return {
-        ...state,
-        [action.payload.counterSelector]:
-          state[action.payload.counterSelector] - action.payload.amount
+        [action.counterType]: state[action.counterType] + action.payload
       };
 
     case UPDATE_HISTORY:

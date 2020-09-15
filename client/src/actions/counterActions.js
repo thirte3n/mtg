@@ -1,22 +1,10 @@
-import { INCREMENT_COUNTER, DECREMENT_COUNTER, UPDATE_HISTORY } from './types';
+import { MANIPULATE_COUNTER, UPDATE_HISTORY } from './types';
 
-export const addLife = (amount = 1) => {
+export const manipulateLife = (amount = 1) => {
   return {
-    type: INCREMENT_COUNTER,
-    payload: {
-      counterSelector: 'lifeCounter',
-      amount
-    }
-  };
-};
-
-export const subtractLife = (amount = 1) => {
-  return {
-    type: DECREMENT_COUNTER,
-    payload: {
-      counterSelector: 'lifeCounter',
-      amount
-    }
+    type: MANIPULATE_COUNTER,
+    payload: amount,
+    counterType: 'lifeCounter'
   };
 };
 
