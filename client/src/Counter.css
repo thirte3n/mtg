@@ -1,0 +1,130 @@
+/* * {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+* * {
+  background-color: rgba(0, 255, 0, 0.2);
+}
+* * * {
+  background-color: rgba(0, 0, 255, 0.2);
+}
+* * * * {
+  background-color: rgba(255, 0, 255, 0.2);
+}
+* * * * * {
+  background-color: rgba(0, 255, 255, 0.2);
+}
+* * * * * * {
+  background-color: rgba(255, 255, 0, 0.2);
+}
+* * * * * * * {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+* * * * * * * * {
+  background-color: rgba(0, 255, 0, 0.2);
+}
+* * * * * * * * * {
+  background-color: rgba(0, 0, 255, 0.2);
+} */
+
+.counter {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 300px;
+  height: 100vh;
+  min-width: 150px;
+  width: 100vw;
+  padding: 2.5rem 0 6rem 0;
+}
+
+.total-count {
+  font-family: 'Roboto', sans-serif;
+  font-size: 8rem;
+}
+
+.history {
+  font-family: 'Open Sans', sans-serif;
+  display: inline-grid;
+  grid-template: 1fr 1fr 1fr / 1fr 1fr;
+  text-align: center;
+  height: 5rem;
+}
+
+.change {
+  grid-column: 1 / 2;
+}
+
+.subtotal {
+  grid-column: 2 / 3;
+}
+
+.buttons-life {
+  display: inline-grid;
+  grid-template: 1fr 1fr / 1fr 1fr;
+  height: 12rem;
+}
+
+.btn-life {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem;
+  width: 40vw;
+  min-width: 5rem;
+}
+
+.btn-life-tall {
+  height: 8rem;
+  grid-row: 1/2;
+}
+
+.btn-life-short {
+  height: 4rem;
+  grid-row: 2/3;
+}
+
+.btn-life-add {
+  background-color: green;
+}
+
+.btn-life-subtract {
+  background-color: red;
+}
+
+@media (min-width: 600px) {
+  .counter {
+    padding: 0;
+    justify-content: space-evenly;
+  }
+
+  .buttons-life {
+    position: absolute;
+    z-index: 1;
+    display: grid;
+    grid-template: 1fr / 1fr 1fr 1fr 1fr;
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+    opacity: 50%;
+  }
+
+  .btn-life {
+    z-index: -1;
+    grid-row: 1/2;
+    width: 25vw;
+    height: 100vh;
+    border: 1px dashed black;
+  }
+
+  #btn-life-subtract-five {
+    grid-column: 1/2;
+  }
+  #btn-life-subtract-one {
+    grid-column: 2/3;
+  }
+  #btn-life-add-one {
+    grid-column: 3/4;
+  }
+  #btn-life-add-five {
+    grid-column: 4/5;
+  }
+}

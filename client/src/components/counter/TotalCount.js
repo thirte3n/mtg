@@ -4,11 +4,7 @@ import { useSelector } from 'react-redux';
 const TotalCount = () => {
   const lifeCounter = useSelector(state => state.counter.lifeCounter);
 
-  return (
-    <div>
-      <h2>{lifeCounter}</h2>
-    </div>
-  );
+  return <h2 className="total-count">{lifeCounter}</h2>;
 };
 
 export default TotalCount;

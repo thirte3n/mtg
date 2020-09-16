@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import HistoryEntry from './HistoryEntry';
 
@@ -7,7 +7,7 @@ const History = () => {
   const historyLength = 3;
 
   return (
-    <div>
+    <div className="history">
       {history.slice(0, historyLength).map(({ change, subtotal }, index) => (
         <HistoryEntry key={index} change={change} subtotal={subtotal} />
       ))}

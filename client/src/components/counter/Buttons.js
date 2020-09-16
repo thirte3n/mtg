@@ -17,6 +17,7 @@ const Buttons = () => {
   };
 
   const handleButton = num => {
+    console.log(num);
     setIsIdle(false);
     clearTimeout(idleTimer);
     setChange(change + num);
@@ -33,11 +34,35 @@ const Buttons = () => {
   });
 
   return (
-    <div>
-      <button onClick={() => handleButton(1)}>+1</button>
-      <button onClick={() => handleButton(5)}>+5</button>
-      <button onClick={() => handleButton(-1)}>-1</button>
-      <button onClick={() => handleButton(-5)}>-5</button>
+    <div className="buttons-life">
+      <button
+        id="btn-life-subtract-one"
+        className="btn-life btn-life-tall btn-life-subtract"
+        onClick={() => handleButton(-1)}
+      >
+        -1
+      </button>
+      <button
+        id="btn-life-add-one"
+        className="btn-life btn-life-tall btn-life-add"
+        onClick={() => handleButton(1)}
+      >
+        +1
+      </button>
+      <button
+        id="btn-life-subtract-five"
+        className="btn-life btn-life-short btn-life-subtract"
+        onClick={() => handleButton(-5)}
+      >
+        -5
+      </button>
+      <button
+        id="btn-life-add-five"
+        className="btn-life btn-life-short btn-life-add"
+        onClick={() => handleButton(5)}
+      >
+        +5
+      </button>
     </div>
   );
 };

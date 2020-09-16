@@ -2,9 +2,10 @@ import React from 'react';
 
 const HistoryEntry = ({ change, subtotal }) => {
   return (
-    <div>
-      <span>Change {change}</span>|<span>Subtotal {subtotal}</span>
-    </div>
+    <>
+      <span className="change">{change}</span>
+      <span className="subtotal">{subtotal}</span>
+    </>
   );
 };
 
