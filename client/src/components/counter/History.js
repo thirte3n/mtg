@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import HistoryEntry from './HistoryEntry';
 
-const History = () => {
-  const history = useSelector(state => state.counter.history);
+const History = ({ mode }) => {
+  const history = useSelector(state => state.counter[`${mode}History`]);
   const historyLength = 3;
 
   return (

@@ -83,11 +83,27 @@
 }
 
 .btn-life-add {
-  background-color: green;
+  /* background-color: green; */
 }
 
 .btn-life-subtract {
-  background-color: red;
+  /* background-color: red; */
+}
+
+.buttons-mode {
+  display: flex;
+  width: 70vw;
+  justify-content: space-evenly;
+  border: 1px solid black;
+}
+
+.btn-mode-change {
+  height: 5vw;
+  width: 5vw;
+  min-height: 3rem;
+  min-width: 3rem;
+  border-radius: 50%;
+  z-index: 1;
 }
 
 @media (min-width: 600px) {
