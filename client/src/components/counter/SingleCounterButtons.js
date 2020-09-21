@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { manipulateCounter, updateHistory } from '../../actions/counterActions';
+import {
+  manipulateSingleCounter,
+  updateHistory
+} from '../../actions/counterActions';
 import { useDispatch, useSelector } from 'react-redux';
 
-const Buttons = () => {
+const SingleCounterButtons = () => {
   const dispatch = useDispatch();
-  const mode = useSelector(state => state.counter.mode);
+  const mode = useSelector((state) => state.counter.mode);
 
   const [isIdle, setIsIdle] = useState(true);
   const [change, setChange] = useState(0);
@@ -17,11 +20,11 @@ const Buttons = () => {
     }, 2000);
   };
 
-  const handleButton = num => {
+  const handleButton = (amount) => {
     setIsIdle(false);
     clearTimeout(idleTimer);
-    setChange(change + num);
-    dispatch(manipulateCounter(num, mode));
+    setChange(change + amount);
+    dispatch(manipulateSingleCounter(amount, mode));
   };
 
   useEffect(() => {
@@ -67,4 +70,4 @@ const Buttons = () => {
   );
 };
 
-export default Buttons;
+export default SingleCounterButtons;

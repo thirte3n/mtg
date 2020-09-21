@@ -1,0 +1,13 @@
+.land-counters {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100vw;
+}
+
+.land-counter {
+  border: 1px solid black;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  text-align: center;
+}

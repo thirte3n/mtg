@@ -198,28 +198,58 @@ Users: {
         type: Number,
         default: 0
       },
-      land: {
-        plains: {
-          type: Number,
-          default: 0
+      land: [
+        {
+          landType: {
+            type: String,
+            default: 'plains'
+          },
+          count: {
+            type: Number,
+            default: 0
+          }
         },
-        island: {
-          type: Number,
-          default: 0
+        {
+          landType: {
+            type: String,
+            default: 'island'
+          },
+          count: {
+            type: Number,
+            default: 0
+          }
         },
-        swamp: {
-          type: Number,
-          default: 0
+        {
+          landType: {
+            type: String,
+            default: 'swamp'
+          },
+          count: {
+            type: Number,
+            default: 0
+          }
         },
-        mountain: {
-          type: Number,
-          default: 0
+        {
+          landType: {
+            type: String,
+            default: 'mountain'
+          },
+          count: {
+            type: Number,
+            default: 0
+          }
         },
-        forest: {
-          type: Number,
-          default: 0
-        },
-      }
+        {
+          landType: {
+            type: String,
+            default: 'forest'
+          },
+          count: {
+            type: Number,
+            default: 0
+          }
+        }
+      ]
     },
     theme: {
       type: String,

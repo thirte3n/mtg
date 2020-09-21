@@ -1,21 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import '../../Counter.css';
-import TotalCount from './TotalCount';
-import History from './History';
-import Buttons from './Buttons';
+import SingleCounter from './SingleCounter';
+import LandCounters from './LandCounters';
+import Dice from './Dice';
 import ModeSelector from './ModeSelector';
 
 const Counter = () => {
-  const mode = useSelector(state => state.counter.mode);
-
-  const lifeCounter = (
-    <>
-      <TotalCount mode={mode} />
-      <History mode={mode} />
-      <Buttons />
-    </>
-  );
+  const mode = useSelector((state) => state.counter.mode);
 
   const checkIfSingleCounter = () => {
     return mode === 'life' || mode === 'poison' ? true : false;
@@ -23,7 +15,9 @@ const Counter = () => {
 
   return (
     <div className="counter">
-      {checkIfSingleCounter() && lifeCounter}
+      {checkIfSingleCounter() && <SingleCounter />}
+      {mode === 'land' && <LandCounters />}
+      {mode === 'dice' && <Dice />}
       <ModeSelector />
     </div>
   );
