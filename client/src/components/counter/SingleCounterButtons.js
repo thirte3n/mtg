@@ -37,31 +37,31 @@ const SingleCounterButtons = () => {
   });
 
   return (
-    <div className="buttons-life">
+    <div className="buttons-single-counter">
       <button
-        id="btn-life-subtract-one"
-        className="btn-life btn-life-tall btn-life-subtract"
+        id="btn-single-counter-subtract-one"
+        className="btn-single-counter btn-single-counter-tall btn-single-counter-subtract"
         onClick={() => handleButton(-1)}
       >
         -1
       </button>
       <button
-        id="btn-life-add-one"
-        className="btn-life btn-life-tall btn-life-add"
+        id="btn-single-counter-add-one"
+        className="btn-single-counter btn-single-counter-tall btn-single-counter-add"
         onClick={() => handleButton(1)}
       >
         +1
       </button>
       <button
-        id="btn-life-subtract-five"
-        className="btn-life btn-life-short btn-life-subtract"
+        id="btn-single-counter-subtract-five"
+        className="btn-single-counter btn-single-counter-short btn-single-counter-subtract"
         onClick={() => handleButton(-5)}
       >
         -5
       </button>
       <button
-        id="btn-life-add-five"
-        className="btn-life btn-life-short btn-life-add"
+        id="btn-single-counter-add-five"
+        className="btn-single-counter btn-single-counter-short btn-single-counter-add"
         onClick={() => handleButton(5)}
       >
         +5

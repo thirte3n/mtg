@@ -11,11 +11,6 @@ const initialState = {
   poisonCounter: 0,
   lifeHistory: [],
   poisonHistory: [],
-  // plainsCounter: 0,
-  // islandCounter: 0,
-  // swampCounter: 0,
-  // mountainCounter: 0,
-  // forestCounter: 0,
   landCounter: {
     plains: {
       landType: 'plains',

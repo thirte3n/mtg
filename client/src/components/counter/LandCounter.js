@@ -9,7 +9,7 @@ const LandCounter = ({ landType }) => {
   );
 
   return (
-    <div className="land-counter">
+    <div className={`land-counter ${landType}`}>
       <LandCounterDisplay landType={landType} count={count} />
       <LandButtons landType={landType} />
     </div>

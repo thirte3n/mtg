@@ -59,34 +59,34 @@
   grid-column: 2 / 3;
 }
 
-.buttons-life {
+.buttons-single-counter {
   display: inline-grid;
   grid-template: 1fr 1fr / 1fr 1fr;
-  height: 12rem;
+  height: 8rem;
 }
 
-.btn-life {
+.btn-single-counter {
   font-family: 'Roboto', sans-serif;
   font-size: 1.5rem;
   width: 40vw;
   min-width: 5rem;
 }
 
-.btn-life-tall {
-  height: 8rem;
+.btn-single-counter-tall {
+  height: 5rem;
   grid-row: 1/2;
 }
 
-.btn-life-short {
-  height: 4rem;
+.btn-single-counter-short {
+  height: 3rem;
   grid-row: 2/3;
 }
 
-.btn-life-add {
+.btn-single-counter-add {
   /* background-color: green; */
 }
 
-.btn-life-subtract {
+.btn-single-counter-subtract {
   /* background-color: red; */
 }
 
@@ -108,22 +108,19 @@
 
 @media (min-width: 600px) {
   .counter {
-    padding: 0;
-    justify-content: space-evenly;
+    padding: 1.5rem 0 2rem 0;
+    /* padding: 0rem 0 2rem 0; */
   }
 
-  .buttons-life {
+  .buttons-single-counter {
     position: absolute;
+    top: 0;
     z-index: 1;
-    display: grid;
-    grid-template: 1fr / 1fr 1fr 1fr 1fr;
-    height: 100vh;
-    width: 100vw;
-    padding: 0;
+    grid-template: 1fr / repeat(4, 25vw);
     opacity: 50%;
   }
 
-  .btn-life {
+  .btn-single-counter {
     z-index: -1;
     grid-row: 1/2;
     width: 25vw;
@@ -131,16 +128,16 @@
     border: 1px dashed black;
   }
 
-  #btn-life-subtract-five {
+  #btn-single-counter-subtract-five {
     grid-column: 1/2;
   }
-  #btn-life-subtract-one {
+  #btn-single-counter-subtract-one {
     grid-column: 2/3;
   }
-  #btn-life-add-one {
+  #btn-single-counter-add-one {
     grid-column: 3/4;
   }
-  #btn-life-add-five {
+  #btn-single-counter-add-five {
     grid-column: 4/5;
   }
 }

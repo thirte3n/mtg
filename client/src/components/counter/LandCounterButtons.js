@@ -11,10 +11,14 @@ const LandButtons = ({ landType }) => {
   };
 
   return (
-    <>
-      <button onClick={() => handleButton(1)}>+</button>
-      <button onClick={() => handleButton(-1)}>-</button>
-    </>
+    <div className="buttons-land">
+      <button className="btn-land" onClick={() => handleButton(1)}>
+        +
+      </button>
+      <button className="btn-land" onClick={() => handleButton(-1)}>
+        -
+      </button>
+    </div>
   );
 };
 
