@@ -40,28 +40,28 @@ const SingleCounterButtons = () => {
     <div className="buttons-single-counter">
       <button
         id="btn-single-counter-subtract-one"
-        className="btn-single-counter btn-single-counter-tall btn-single-counter-subtract"
+        className="btn-roboto btn-single-counter btn-single-counter-tall btn-single-counter-subtract"
         onClick={() => handleButton(-1)}
       >
         -1
       </button>
       <button
         id="btn-single-counter-add-one"
-        className="btn-single-counter btn-single-counter-tall btn-single-counter-add"
+        className="btn-roboto btn-single-counter btn-single-counter-tall btn-single-counter-add"
         onClick={() => handleButton(1)}
       >
         +1
       </button>
       <button
         id="btn-single-counter-subtract-five"
-        className="btn-single-counter btn-single-counter-short btn-single-counter-subtract"
+        className="btn-roboto btn-single-counter btn-single-counter-short btn-single-counter-subtract"
         onClick={() => handleButton(-5)}
       >
         -5
       </button>
       <button
         id="btn-single-counter-add-five"
-        className="btn-single-counter btn-single-counter-short btn-single-counter-add"
+        className="btn-roboto btn-single-counter btn-single-counter-short btn-single-counter-add"
         onClick={() => handleButton(5)}
       >
         +5

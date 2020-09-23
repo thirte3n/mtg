@@ -12,10 +12,10 @@ const LandButtons = ({ landType }) => {
 
   return (
     <div className="buttons-land">
-      <button className="btn-land" onClick={() => handleButton(1)}>
+      <button className="btn-roboto btn-land" onClick={() => handleButton(1)}>
         +
       </button>
-      <button className="btn-land" onClick={() => handleButton(-1)}>
+      <button className="btn-roboto btn-land" onClick={() => handleButton(-1)}>
         -
       </button>
     </div>

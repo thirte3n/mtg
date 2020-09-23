@@ -3,29 +3,41 @@
   flex: 1 1 10rem;
   flex-wrap: wrap;
   justify-content: space-around;
-  align-items: center;
+  align-items: flex-start;
   width: 80vw;
-  height: 600px;
 }
 
 .land-counter {
-  border: 1px solid black;
   flex: 0 1 5.5rem;
   margin: 0 1rem;
   display: flex;
-  flex-flow: column;
+  flex-direction: column;
   align-items: center;
-  height: 8rem;
+  height: 7rem;
   justify-content: space-between;
   text-align: center;
+  border: 1px solid black;
+}
+
+.buttons-land {
+  display: flex;
+  flex-flow: row-reverse nowrap;
+  width: 100%;
 }
 
 .btn-land {
   font-family: 'Roboto', sans-serif;
   font-size: 1.5rem;
-  width: 100%;
-  min-width: 6rem;
+  flex: 1 1;
   height: 2rem;
+}
+
+.total-count-land {
+  font-size: 1.5rem;
+}
+
+.total-count-land-type {
+  font-size: 1rem;
 }
 
 @media (min-width: 600px) {
@@ -33,11 +45,41 @@
     display: grid;
     grid-template-columns: repeat(5, 20vw);
     grid-template-areas: 'plains island swamp mountain forest';
-    border: 1px solid blue;
     width: 100vw;
   }
 
   .land-counter {
-    /* flex: 1 1 8rem; */
+    display: flex;
+    justify-content: space-between;
+    width: 20vw;
+    margin: 0;
+    height: 65%;
+    border: none;
+  }
+
+  .total-count-land-type {
+    font-size: 3.2vw;
+  }
+
+  .total-count-land {
+    font-size: 5vw;
+  }
+
+  .buttons-land {
+    display: grid;
+    grid-template: repeat(2, 50%) / 1fr;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    opacity: 50%;
+    width: 20vw;
+    height: 100vh;
+  }
+
+  .btn-land {
+    height: 50vh;
+    border: none;
+    border-left: 1px dashed black;
+    border-right: 1px dashed black;
   }
 }

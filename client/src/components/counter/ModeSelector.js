@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 const ModeSelector = () => {
   const dispatch = useDispatch();
 
-  const handleButton = mode => {
+  const handleButton = (mode) => {
     dispatch(setMode(mode));
   };
 
