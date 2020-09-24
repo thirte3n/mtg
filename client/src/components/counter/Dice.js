@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import DiceDisplay from './DiceDisplay';
+import DiceButtons from './DiceButtons';
 
 const Dice = () => {
+  const [diceRoll, setDiceRoll] = useState(null);
+
   return (
     <div>
-      <h1>Dice</h1>
+      <DiceDisplay diceRoll={diceRoll} />
+      <DiceButtons setDiceRoll={setDiceRoll} />
     </div>
   );
 };
