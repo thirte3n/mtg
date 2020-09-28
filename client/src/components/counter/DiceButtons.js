@@ -2,19 +2,17 @@ import React from 'react';
 import DiceButton from './DiceButton';
 
 const DiceButtons = ({ setDiceRoll }) => {
-  return (
-    <div>
-      <DiceButton setDiceRoll={setDiceRoll} value={2} />
-      <DiceButton setDiceRoll={setDiceRoll} value={4} />
-      <DiceButton setDiceRoll={setDiceRoll} value={6} />
-      <DiceButton setDiceRoll={setDiceRoll} value={8} />
-      <DiceButton setDiceRoll={setDiceRoll} value={10} />
-      <DiceButton setDiceRoll={setDiceRoll} value={12} />
-      <DiceButton setDiceRoll={setDiceRoll} value={20} />
-      <DiceButton setDiceRoll={setDiceRoll} value={100} />
-      <DiceButton setDiceRoll={setDiceRoll} value={'x'} />
-    </div>
-  );
+  const values = [2, 4, 6, 8, 10, 12, 20, 100, 'x'];
+
+  const diceButtons = values.map((value) => (
+    <DiceButton
+      className="dice-button"
+      setDiceRoll={setDiceRoll}
+      value={value}
+    />
+  ));
+
+  return <div className="dice-buttons">{diceButtons}</div>;
 };
 
 export default DiceButtons;

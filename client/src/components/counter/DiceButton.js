@@ -27,11 +27,9 @@ const DiceButton = ({ setDiceRoll, value }) => {
   };
 
   return (
-    <div>
-      <button className="btn-dice" onClick={handleButton}>
-        {value === 2 ? 'coin' : value}
-      </button>
-    </div>
+    <button className="btn-dice btn-roboto" onClick={handleButton}>
+      {value === 2 ? 'coin' : value}
+    </button>
   );
 };
 

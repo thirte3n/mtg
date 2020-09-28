@@ -1,0 +1,90 @@
+.dice-roll {
+  display: flex;
+  flex-flow: column nowrap;
+  flex-grow: 1;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100vw;
+  padding: 0 1.5rem;
+}
+
+.total-count-dice-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  height: 6rem;
+  width: 15rem;
+  margin-bottom: 2.5rem;
+}
+
+.total-count-dice {
+  font-size: 4rem;
+}
+
+.blank {
+  visibility: hidden;
+}
+
+.dice-buttons {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+
+.btn-dice {
+  min-height: 4rem;
+  min-width: 4rem;
+  border-radius: 100%;
+  margin: 0.5rem;
+}
+
+@media (min-height: 600px) and (orientation: portrait) {
+  .total-count-dice-container {
+    height: 18vh;
+    width: 70vw;
+  }
+
+  .total-count-dice {
+    font-size: 10vh;
+  }
+
+  .dice-buttons {
+    max-height: 50vh;
+  }
+
+  .btn-dice {
+    margin: 1vw 1vh;
+    min-height: 11vh;
+    min-width: 11vh;
+
+    height: 16vh;
+    width: 16vh;
+
+    /* makes sure buttons will not wrap by two buttons per line on slimmer width devices */
+    max-height: 24vw;
+    max-width: 24vw;
+  }
+}
+
+@media (min-width: 600px) and (orientation: landscape) {
+  .total-count-dice-container {
+    height: 20vh;
+    width: 35vw;
+    margin-bottom: 1vh;
+  }
+
+  .total-count-dice {
+    font-size: 9vw;
+  }
+
+  .dice-buttons {
+    width: 65vw;
+  }
+
+  .btn-dice {
+    height: 10vw;
+    width: 10vw;
+    margin: 1.5vh;
+  }
+}
