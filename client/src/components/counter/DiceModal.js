@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { generateRandomNum } from '../../utils/generateRandomNum';
+import DiceModalButtons from './DiceModalButtons';
+import DiceModalDisplay from './DiceModalDisplay';
+import DiceModalSubmitButtons from './DiceModalSubmitButtons';
+import '../../DiceModal.css';
 
 const DiceModal = ({ setDiceRoll, modal, setModal }) => {
   const [value, setValue] = useState('');
+  const [prevValue, setPrevValue] = useState('');
 
   const closeModal = () => {
     setValue('');
@@ -16,36 +20,30 @@ const DiceModal = ({ setDiceRoll, modal, setModal }) => {
     }
   };
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setDiceRoll(generateRandomNum(value));
-    closeModal();
-  };
-
   return (
+    //TODO: change counterReducer.js initialState.mode = life and Dice.js modal useState(false)
     <div
       className={modal ? 'modal-overlay' : 'modal-hide'}
       onClick={handleClick}
     >
-      <form
+      <div
         className={`dice-modal-container ${
           modal ? 'modal-show' : 'modal-hide'
         }`}
-        onSubmit={handleSubmit}
       >
-        <input
-          id="max-num"
-          name="max-num"
-          type="number"
+        <DiceModalDisplay value={value} setValue={setValue} />
+        <DiceModalButtons
           value={value}
-          onChange={handleChange}
-          autoFocus
+          setValue={setValue}
+          prevValue={prevValue}
         />
-      </form>
+        <DiceModalSubmitButtons
+          setDiceRoll={setDiceRoll}
+          value={value}
+          setPrevValue={setPrevValue}
+          closeModal={closeModal}
+        />
+      </div>
     </div>
   );
 };

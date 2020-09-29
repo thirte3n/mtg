@@ -2,11 +2,11 @@ import {
   MANIPULATE_SINGLE_COUNTER,
   MANIPULATE_LAND_COUNTER,
   UPDATE_HISTORY,
-  SET_MODE
+  SET_MODE,
 } from '../actions/types';
 
 const initialState = {
-  mode: 'life',
+  mode: 'dice',
   lifeCounter: 20,
   poisonCounter: 0,
   lifeHistory: [],
@@ -14,27 +14,27 @@ const initialState = {
   landCounter: {
     plains: {
       landType: 'plains',
-      count: 0
+      count: 0,
     },
     island: {
       landType: 'island',
-      count: 0
+      count: 0,
     },
     swamp: {
       landType: 'swamp',
-      count: 0
+      count: 0,
     },
     mountain: {
       landType: 'mountain',
-      count: 0
+      count: 0,
     },
     forest: {
       landType: 'forest',
-      count: 0
-    }
+      count: 0,
+    },
   },
   theme: 'plains',
-  loading: true
+  loading: true,
 };
 
 const counterReducer = (state = initialState, action) => {
@@ -46,7 +46,7 @@ const counterReducer = (state = initialState, action) => {
     case MANIPULATE_SINGLE_COUNTER:
       return {
         ...state,
-        [counter]: state[counter] + action.payload
+        [counter]: state[counter] + action.payload,
       };
 
     case MANIPULATE_LAND_COUNTER:
@@ -56,9 +56,9 @@ const counterReducer = (state = initialState, action) => {
           ...state[counter],
           [landType]: {
             ...state[counter][landType],
-            count: state[counter][landType].count + action.payload
-          }
-        }
+            count: state[counter][landType].count + action.payload,
+          },
+        },
       };
 
     case UPDATE_HISTORY:
@@ -66,14 +66,14 @@ const counterReducer = (state = initialState, action) => {
         ...state,
         [history]: [
           { change: action.payload, subtotal: state[counter] },
-          ...state[history]
-        ]
+          ...state[history],
+        ],
       };
 
     case SET_MODE:
       return {
         ...state,
-        mode: action.payload
+        mode: action.payload,
       };
 
     default:
