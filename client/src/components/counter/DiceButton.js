@@ -1,25 +1,11 @@
 import React from 'react';
+import { generateRandomNum } from '../../utils/generateRandomNum';
 
-const DiceButton = ({ setDiceRoll, value }) => {
-  const generateRandomNum = (maxNum) => {
-    const randomNum = Math.floor(Math.random() * maxNum) + 1;
-
-    // Change random number generator to random coin toss
-    if (value === 2) {
-      if (randomNum === 1) {
-        return 'heads';
-      } else {
-        return 'tails';
-      }
-    }
-
-    return randomNum;
-  };
-
+const DiceButton = ({ setDiceRoll, setModal, value }) => {
   const handleButton = () => {
     // Call modal if custom number generator is clicked
     if (typeof value !== 'number') {
-      // Call modal
+      setModal(true);
       return;
     }
 
