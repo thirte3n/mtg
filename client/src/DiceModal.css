@@ -21,20 +21,83 @@
 
 .dice-modal-container {
   position: relative;
-  border: 1px solid black;
-  height: 50vh;
-  width: 40vw;
   background: #fff;
+  border: 1px solid black;
+  height: 70vh;
+  width: 80vw;
+  padding: 5.5vh 6vw;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
 }
 
 .dice-modal-display {
   display: flex;
   flex-flow: row nowrap;
-  height: 4vh;
-  padding: 0 1rem;
 }
 
-.dice-modal-buttons {
+.dice-modal-display-input {
+  border: 1px solid black;
+  flex: 1 1;
+  margin-right: 1vh;
+  height: 7.5vh;
+  padding-left: 2vw;
+  display: flex;
+  align-items: center;
+}
+
+.dice-modal-display-btn {
+  flex-basis: 7.5vh;
+  margin-left: 1vh;
+}
+
+.dice-modal-input {
   display: grid;
   grid-template: 1fr 1fr 1fr 1fr / 1fr 1fr 1fr;
+  grid-gap: 0.7vh;
+}
+
+.dice-modal-submit-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-dice-modal {
+  height: 7.5vh;
+}
+
+.btn-prev-value {
+  grid-area: 4 / 2 / 5 / 4;
+}
+
+.btn-dice-modal-end {
+  flex: 1 1;
+}
+
+.btn-dice-modal-cancel {
+  margin-right: 0.35vh;
+}
+
+.btn-dice-modal-submit {
+  margin-left: 0.35vh;
+}
+
+@media (orientation: landscape) {
+  .dice-modal-container {
+    height: 90vh;
+    width: 45vw;
+    padding: 5.5vh 4vw;
+  }
+
+  .dice-modal-display-input {
+    height: 11vh;
+  }
+
+  .dice-modal-display-btn {
+    flex-basis: 11vh;
+  }
+
+  .btn-dice-modal {
+    height: 11vh;
+  }
 }

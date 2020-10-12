@@ -23,8 +23,18 @@ const DiceModalSubmitButtons = ({
 
   return (
     <div className="dice-modal-submit-buttons">
-      <button onClick={closeModal}>Cancel</button>
-      <button onClick={handleSubmit}>OK</button>
+      <button
+        className="btn-dice-modal btn-dice-modal-end btn-dice-modal-cancel"
+        onClick={closeModal}
+      >
+        Cancel
+      </button>
+      <button
+        className="btn-dice-modal btn-dice-modal-end btn-dice-modal-submit"
+        onClick={handleSubmit}
+      >
+        OK
+      </button>
     </div>
   );
 };

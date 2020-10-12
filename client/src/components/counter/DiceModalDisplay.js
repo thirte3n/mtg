@@ -8,8 +8,13 @@ const DiceModalDisplay = ({ value, setValue }) => {
 
   return (
     <div className="dice-modal-display">
-      <p>{value}</p>
-      <button onClick={removeLastDigit}>{'<='}</button>
+      <p className="dice-modal-display-input">{value}</p>
+      <button
+        className="btn-dice-modal dice-modal-display-btn"
+        onClick={removeLastDigit}
+      >
+        {'<='}
+      </button>
     </div>
   );
 };

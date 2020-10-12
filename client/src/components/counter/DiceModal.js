@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import DiceModalButtons from './DiceModalButtons';
+import DiceModalInput from './DiceModalInput';
 import DiceModalDisplay from './DiceModalDisplay';
 import DiceModalSubmitButtons from './DiceModalSubmitButtons';
 import '../../DiceModal.css';
@@ -32,7 +32,7 @@ const DiceModal = ({ setDiceRoll, modal, setModal }) => {
         }`}
       >
         <DiceModalDisplay value={value} setValue={setValue} />
-        <DiceModalButtons
+        <DiceModalInput
           value={value}
           setValue={setValue}
           prevValue={prevValue}
