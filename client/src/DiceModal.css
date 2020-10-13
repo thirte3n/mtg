@@ -41,9 +41,13 @@
   flex: 1 1;
   margin-right: 1vh;
   height: 7.5vh;
-  padding-left: 2vw;
+  /* padding-left: 6vw; */
   display: flex;
+  justify-content: center;
   align-items: center;
+  overflow: hidden;
+  font-size: 8vw;
+  text-align: center;
 }
 
 .dice-modal-display-btn {
@@ -91,6 +95,7 @@
 
   .dice-modal-display-input {
     height: 11vh;
+    font-size: 8vh;
   }
 
   .dice-modal-display-btn {

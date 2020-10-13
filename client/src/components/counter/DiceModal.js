@@ -21,7 +21,6 @@ const DiceModal = ({ setDiceRoll, modal, setModal }) => {
   };
 
   return (
-    //TODO: change counterReducer.js initialState.mode = life and Dice.js modal useState(false)
     <div
       className={modal ? 'modal-overlay' : 'modal-hide'}
       onClick={handleClick}

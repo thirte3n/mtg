@@ -17,6 +17,20 @@ const DiceModalInput = ({ value, setValue, prevValue }) => {
       return setValue(prevValue);
     }
 
+    // Prevents total value exceeding 99,999
+    if (value.length === 5) {
+      return;
+    }
+
+    // Prevents leading zeroes
+    if (value.length === 1 && Number(value) === 0) {
+      if (Number(newInput) === 0) {
+        return;
+      }
+
+      return setValue(newInput);
+    }
+
     const newValue = value + newInput;
     setValue(newValue);
   };

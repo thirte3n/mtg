@@ -12,9 +12,10 @@ const DiceModalSubmitButtons = ({
       return;
     }
 
-    // TODO: Error handling
-    // No 0
-    // No number too high
+    // Prevents submit if value is zero
+    if (Number(value) === 0) {
+      return;
+    }
 
     setDiceRoll(generateRandomNum(value));
     setPrevValue(value);

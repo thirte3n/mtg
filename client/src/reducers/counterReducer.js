@@ -6,7 +6,7 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  mode: 'dice',
+  mode: 'life',
   lifeCounter: 20,
   poisonCounter: 0,
   lifeHistory: [],

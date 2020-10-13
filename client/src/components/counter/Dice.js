@@ -6,7 +6,7 @@ import '../../Dice.css';
 
 const Dice = () => {
   const [diceRoll, setDiceRoll] = useState(null);
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(false);
 
   return (
     <div className={`dice-roll`}>
