@@ -93,6 +93,11 @@ $ cd ..
 # Create a .env file in the root project directory then add the environment variables written in the Env Variables section
 $ touch .env
 
+# Run the React build script
+$ cd client
+$ npm i
+$ cd ..
+
 # Run the app
 $ npm start
 
