@@ -13,11 +13,13 @@ A Magic: The Gathering companion app that lets players track their counters and 
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
+  * [Testing](#testing)
   * [Deployment](#deployment)
 * [Technologies](#technologies)
 * [Author](#author)
 * [Acknowledgement](#acknowledgement)
 * [License](#license)
+* [Database Properties](#database-properties)
 
 ---
 
@@ -90,8 +92,8 @@ $ cd client
 $ npm install
 $ cd ..
 
-# Create a .env file in the root project directory then add the environment variables written in the Env Variables section
-$ touch .env
+# Rename the .env-sample to to .env and replace the pre-written values to match your needs
+$ mv .env-sample .env
 
 # Run the React build script
 $ cd client
@@ -117,29 +119,9 @@ $ npm run client
 $ npm run server
 ```
 
-<!--
-### Env Variables
-
-Create a .env file in the root project directory and add the following:
-
-```
-TODO:
-NODE_ENV=
-PORT=
-MONGO_URI=
-JWT_SECRET=
-```
--->
-
-<!--
 ### Testing
 
 To run the tests, open the root project directory in your terminal. Run `npm install` to install all necessary dependencies then run `npm test` to run automated tests.
-
-There are currently no tests written for the client.
-
-TODO:
--->
 
 ### Deployment
 
@@ -182,6 +164,11 @@ This project is built with:
     * concurrently
     * nodemon
 
+* Testing
+  * Chai
+  * Mocha
+  * Supertest
+
 <!-- * External API
   * [Magic: The Gathering SDK](https://github.com/MagicTheGathering/mtg-sdk-javascript) -->
 
@@ -203,11 +190,27 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3 - see th
 TODO:
 -->
 
-<!--
 ## Database Properties
 
-TODO:
--->
+* **User**
+  * username - String, required, minlength: 4, maxlength: 20, trim, lowercase
+  * password - String, required, minlength: 8
+  * isAdmin - Boolean, default: false
+  * firstName - String, required, minlength: 1, maxlength: 20
+  * lastName - String, required, minlength: 1, maxlength: 20
+  * dateRegistered - Date, default: Date.now
+  * counter
+    * life - Number, default: 20
+    * poison - Number, default: 0
+    * land
+      * plains - Number, default: 0
+      * island - Number, default: 0
+      * swamp - Number, default: 0
+      * mountain - Number, default: 0
+      * forest - Number, default: 0
+  * theme - String, default: 'plains'
+  * userRooms - Array
+    * roomId - Number, required
 
 <!--
 ## API Routes

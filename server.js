@@ -2,8 +2,28 @@ const express = require('express');
 const app = express();
 const path = require('path');
 require('dotenv').config();
+const mongoose = require('mongoose');
 
 module.exports = app;
+
+// DB
+const db = process.env.TEST_DATABASE || process.env.MongoURI;
+
+// Connect to MongoDB
+mongoose
+  .connect(db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
+  .then(() =>
+    console.log(
+      `Connected to ${
+        db === process.env.TEST_DATABASE ? 'test database' : 'MongoDB Atlas'
+      }`,
+    ),
+  )
+  .catch((err) => console.log(err));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
