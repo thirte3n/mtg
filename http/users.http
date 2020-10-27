@@ -1,0 +1,7 @@
+@root = http://localhost:5000/api/v1
+@endpoint = /users
+@URL = {{root}}/{{endpoint}}
+
+###
+
+GET {{URL}} HTTP/1.1

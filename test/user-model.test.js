@@ -1,16 +1,16 @@
-process.env.PORT = 8081;
-process.env.TEST_DATABASE = 'mongodb://localhost:27017/mtg';
+process.env.NODE_ENV = 'test';
 
 const mongoose = require('mongoose');
 
 const User = require('../models/User');
 
-describe('Database Tests', () => {
+describe.skip('Database Tests', () => {
   before((done) => {
     mongoose
       .connect(process.env.TEST_DATABASE, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useFindAndModify: false,
       })
       .then(() => done())
       .catch((err) => console.log(err));

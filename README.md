@@ -20,6 +20,7 @@ A Magic: The Gathering companion app that lets players track their counters and 
 * [Acknowledgement](#acknowledgement)
 * [License](#license)
 * [Database Properties](#database-properties)
+* [API Routes](#api-routes)
 
 ---
 
@@ -123,6 +124,8 @@ $ npm run server
 
 To run the tests, open the root project directory in your terminal. Run `npm install` to install all necessary dependencies then run `npm test` to run automated tests.
 
+To run manual tests for the api, the `/http/*.http` files can be run using the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension for Visual Studio Code.
+
 ### Deployment
 
 Before deploying to a server or host of your choice, run the build script for the client.
@@ -212,8 +215,43 @@ TODO:
   * userRooms - Array
     * roomId - Number, required
 
-<!--
 ## API Routes
 
-TODO:
--->
+* /api/v1/users
+  * Method: GET
+    * Description: Get list of all users
+    * Access: Public
+    * URL Params: none
+    * Data Params: none
+    * Success Response:
+      ```json
+      Status: 200 OK
+      Body:
+      {
+        "success": true,
+        "status": 200,
+        "count" : 2,
+        "data": [
+          {
+            "_id": "1234567890abcdef12345678",
+            "username": "Gaji"
+          },
+          {
+            "_id": "1234567890abcdef12345679",
+            "username": "Justin"
+          }
+        ]
+      }
+      ```
+    * Error Response:
+      ```json
+      Status: 500 Server Error
+      Body:
+      {
+        "success": false,
+        "status": 500,
+        "error": "Server Error"
+      }
+      ```
+    * Sample Call: `GET http://mtg.justingajitos.com/api/v1/users HTTP/1.1`
+    * Notes: none

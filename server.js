@@ -7,7 +7,10 @@ const mongoose = require('mongoose');
 module.exports = app;
 
 // DB
-const db = process.env.TEST_DATABASE || process.env.MongoURI;
+const db =
+  process.env.NODE_ENV === 'production'
+    ? process.env.MongoURI
+    : process.env.TEST_DATABASE;
 
 // Connect to MongoDB
 mongoose
@@ -15,15 +18,26 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
+    useCreateIndex: true,
   })
   .then(() =>
     console.log(
       `Connected to ${
-        db === process.env.TEST_DATABASE ? 'test database' : 'MongoDB Atlas'
+        db === process.env.MongoURI ? 'MongoDB database' : 'test database'
       }`,
     ),
   )
   .catch((err) => console.log(err));
+
+// Body Parser
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// Routes
+const apiRouter = require('./routes/api/v1/api');
+
+// @route /api/v1
+app.use('/api/v1', apiRouter);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
