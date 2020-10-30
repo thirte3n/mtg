@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: 'Password is required',
     minlength: 8,
+    maxlength: 30,
   },
   isAdmin: {
     type: Boolean,

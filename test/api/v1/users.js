@@ -15,6 +15,12 @@ describe('/api/v1/users routes', () => {
     });
   });
 
+  after((done) => {
+    User.deleteMany({}, (err) => {
+      done();
+    });
+  });
+
   describe('GET /api/v1/users', () => {
     it('should return an object with properties "success, status, count, and data"', () => {
       return request(server)
@@ -30,6 +36,10 @@ describe('/api/v1/users routes', () => {
         });
     });
 
+    /**
+     * FIXME: This spec sometimes return an array of 2 instead of 3 at the time the GET request is sent
+     * I already tested this out with seeding 1000 fake users, but even though the seeding takes a long time, the GET request is only sent after every user in the array is created. So I still can't figure out why this sometimes makes a wrong test result.
+     */
     it('should return a list of users', () => {
       const fakeUsers = [
         {
@@ -81,7 +91,8 @@ describe('/api/v1/users routes', () => {
     const expectCorrectErrorResponse = (res) => {
       expect(res.body.success).to.be.a('boolean').equal(false);
       expect(res.body.status).to.be.a('number').equal(400);
-      expect(res.body.error).be.a('string').equal('Bad Request');
+      expect(res.body.error).to.be.a('string').equal('Bad Request');
+      return res;
     };
 
     it('should not POST a user with no username', () => {
@@ -179,102 +190,35 @@ describe('/api/v1/users routes', () => {
         });
     });
 
-    it('should not POST a user if username is already taken', () => {
-      return request(server)
-        .post('/api/v1/users')
-        .send({ user: fakeUser })
-        .expect('Content-Type', /json/)
-        .expect(400)
-        .then(expectCorrectErrorResponse);
-    });
-
-    it.skip('new user posted should persist in the database', () => {
-      /**
-       * FIXME: Temporary code to simulate a successful POST /api/v1/users request.
-       * Delete this once the POST /api/v1/users route already works
-       */
-      const fakeUsers = [
-        {
-          username: 'hifumin',
-          firstName: 'Hifumi',
-          lastName: 'Takimoto',
-          password: 'hedgehog',
-        },
-        {
-          username: 'aocchi',
-          firstName: 'Aoba',
-          lastName: 'Suzukaze',
-          password: 'nenecchi',
-        },
-        {
-          username: 'kochan',
-          firstName: 'Kou',
-          lastName: 'Yagami',
-          password: 'tooyamar',
-        },
-      ];
-
-      fakeUsers.forEach((user) => {
-        const newUser = new User(user);
-        newUser.save();
+    describe('POST /api/v1/users after a succesful POST request', () => {
+      beforeEach(() => {
+        return request(server)
+          .post('/api/v1/users')
+          .send({ user: fakeUser })
+          .expect(201);
       });
 
-      // HACK: Running the method in a setTimeout is for preventing the `User.find({})` method from running before the `User.save()` methods
-      return setTimeout(() => {
-        User.find({}).then((users) => console.log(users));
-      }, 1);
+      it('should not POST a user if username is already taken', () => {
+        return request(server)
+          .post('/api/v1/users')
+          .send({ user: fakeUser })
+          .expect('Content-Type', /json/)
+          .expect(400)
+          .then((res) => {
+            expect(res.body.error).to.equal('Username is already taken');
+          });
+      });
 
-      /**
-       * TODO: Run User.find({}) to check if the previous test that sent a successful POST request will persist the new user into the database
-       */
-      // User.find({})
-      //   .then((users) => {
-      //     console.log(users);
-      //     // console.log(fakeUser.username);
+      it('new user posted should persist in the database', () => {
+        return User.findOne({ username: fakeUser.username }).then((user) => {
+          expect(user).to.have.property('username').equal(fakeUser.username);
+          expect(user).to.have.property('firstName').equal(fakeUser.firstName);
+          expect(user).to.have.property('lastName').equal(fakeUser.lastName);
+          expect(user).to.have.property('password').equal(fakeUser.password);
+        });
+      });
 
-      //     for (let i = 0; i < fakeUsers.length; i++) {
-      //       expect(users[i])
-      //         .to.have.property('username')
-      //         .equal(fakeUser[i].username);
-      //       expect(users[i])
-      //         .to.have.property('firstName')
-      //         .equal(fakeUser[i].firstName);
-      //       expect(users[i])
-      //         .to.have.property('lastName')
-      //         .equal(fakeUser[i].lastName);
-      //       expect(users[i])
-      //         .to.have.property('password')
-      //         .equal(fakeUser[i].password);
-      //     }
-      //   })
-      //   .catch((err) => console.log(err));
+      it('should encrypt the password');
     });
   });
 });
-
-// ----------------------------------------------------------------------------
-
-// describe('GET /api/users', () => {
-//   before((done) => {
-//     //seed the database
-//   });
-
-//   it('should return return a status code of 200', () => {
-//     return request(server).get('/api/users').expect(200);
-//   });
-
-//   it('should return all users', (done) => {
-//     User.find({})
-//       .then((users) => {
-//         if (users.length === 2) done();
-//       })
-//       .catch((err) => {
-//         throw new Error(err);
-//       });
-//   });
-// });
-
-// describe('POST /api/users', () => {});
-// describe('GET /api/users/:userId', () => {});
-// describe('PUT /api/users/:userId', () => {});
-// describe('DELETE /api/users/:userId', () => {});

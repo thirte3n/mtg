@@ -23,3 +23,96 @@ exports.getUsers = async (req, res, next) => {
     });
   }
 };
+
+exports.validateRequiredInput = (req, res, next) => {
+  req.newUsername = req.body.user.username;
+  req.newFirstName = req.body.user.firstName;
+  req.newLastName = req.body.user.lastName;
+  req.newPassword = req.body.user.password;
+
+  if (
+    !req.newUsername ||
+    !req.newFirstName ||
+    !req.newLastName ||
+    !req.newPassword ||
+    req.newUsername.length < 4 ||
+    req.newUsername.length > 20 ||
+    req.newFirstName.length < 1 ||
+    req.newFirstName.length > 20 ||
+    req.newLastName.length < 1 ||
+    req.newLastName.length > 20 ||
+    req.newPassword.length < 8 ||
+    req.newPassword.length > 30
+  ) {
+    res.status(400).json({
+      success: false,
+      status: 400,
+      error: 'Bad Request',
+    });
+  } else {
+    next();
+  }
+};
+
+exports.checkUsernameExists = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ username: req.newUsername });
+
+    if (user) {
+      res.status(400).json({
+        success: false,
+        status: 400,
+        error: 'Username is already taken',
+      });
+    } else {
+      next();
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      status: 500,
+      error: err,
+    });
+  }
+};
+
+/**
+ * @route   POST /api/users
+ * @desc    Add user
+ * @access  Public
+ */
+exports.addUser = async (req, res, next) => {
+  // TODO: hash password
+  try {
+    const newUser = await User.create({
+      username: req.newUsername,
+      firstName: req.newFirstName,
+      lastName: req.newLastName,
+      password: req.newPassword,
+    });
+
+    return res.status(201).json({
+      success: true,
+      status: 201,
+      data: {
+        user: newUser,
+      },
+    });
+  } catch (err) {
+    if (err.name === 'ValidationError') {
+      const messages = Object.values(err.errors).map((value) => value.message);
+
+      return res.status(400).json({
+        success: false,
+        status: 400,
+        error: messages,
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        status: 500,
+        error: err,
+      });
+    }
+  }
+};

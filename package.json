@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "mocha --recursive",
+    "test:api": "mocha ./test/api/v1 --recursive",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""

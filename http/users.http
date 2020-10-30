@@ -5,3 +5,17 @@
 ###
 
 GET {{URL}} HTTP/1.1
+
+###
+
+POST {{URL}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "user" : {
+    "username": "hifumin",
+    "firstName": "Hifumi",
+    "lastName": "Takimoto",
+    "password": "hedgehog"
+  }
+}

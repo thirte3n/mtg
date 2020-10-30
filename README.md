@@ -197,7 +197,7 @@ TODO:
 
 * **User**
   * username - String, required, minlength: 4, maxlength: 20, trim, lowercase
-  * password - String, required, minlength: 8
+  * password - String, required, minlength: 8, maxlength: 30
   * isAdmin - Boolean, default: false
   * firstName - String, required, minlength: 1, maxlength: 20
   * lastName - String, required, minlength: 1, maxlength: 20
@@ -265,10 +265,10 @@ TODO:
       Body:
       {
         "user": {
-          "username": String, Required,
-          "firstName": String, Required,
-          "lastName": String, Required,
-          "password": String, Minimum Length = 8, Required
+          "username": String, Minimium Length:  4, Maximum Length:  20, Required,
+          "firstName": String, Minimium Length:  1, Maximum Length:  20, Required,
+          "lastName": String, Minimium Length:  1, Maximum Length:  20, Required,
+          "password": String, Minimum Length:  8, Maximum Length:  30, Required
         }
       }
       ```
@@ -282,7 +282,7 @@ TODO:
         "data": {}
       ```
     * Error Response:
-      * Error: A required field is missing or data type is incorrect, username is already taken, password length too short
+      * Error: A required field is missing or data type is incorrect, username is already taken, input length too short or short
       ```json
       Status: 400 Bad Request
       Body:
