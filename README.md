@@ -255,3 +255,55 @@ TODO:
       ```
     * Sample Call: `GET http://mtg.justingajitos.com/api/v1/users HTTP/1.1`
     * Notes: none
+
+  * Method: POST
+    * Description: Create a new user
+    * Access: Public
+    * URL Params: none
+    * Data Params: required
+      ```json
+      Body:
+      {
+        "user": {
+          "username": String, Required,
+          "firstName": String, Required,
+          "lastName": String, Required,
+          "password": String, Minimum Length = 8, Required
+        }
+      }
+      ```
+    * Success Response:
+      ```json
+      Status: 201 Created
+      Body:
+      {
+        "success": true,
+        "status": 201,
+        "data": {}
+      ```
+    * Error Response:
+      * Error: A required field is missing or data type is incorrect, username is already taken, password length too short
+      ```json
+      Status: 400 Bad Request
+      Body:
+      {
+        "success": false,
+        "status": 400,
+        "error": "Bad Request"
+      }
+      ```
+    * Sample Call
+      ```json
+      POST mtg.justingajitos.com/api/v1/users
+      Content-Type: application/json
+      Body:
+      {
+        "user": {
+          "username": "chosenone",
+          "firstName": "Harry",
+          "lastName": "Potter",
+          "password": "ginnyweasley"
+        }
+      }
+      ```
+    * Notes: none

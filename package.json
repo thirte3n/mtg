@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha",
+    "test": "mocha --recursive",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
@@ -22,15 +22,15 @@
   },
   "homepage": "mtg.justingajitos.com",
   "dependencies": {
-    "chai": "^4.2.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mocha": "^8.2.0",
-    "mongoose": "^5.10.10",
-    "supertest": "^5.0.0"
+    "mongoose": "^5.10.10"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "concurrently": "^5.3.0",
-    "nodemon": "^2.0.6"
+    "mocha": "^8.2.0",
+    "nodemon": "^2.0.6",
+    "supertest": "^5.0.0"
   }
 }

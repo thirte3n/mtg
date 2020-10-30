@@ -2,9 +2,9 @@ process.env.NODE_ENV = 'test';
 
 const mongoose = require('mongoose');
 
-const User = require('../models/User');
+const User = require('../../models/User');
 
-describe.skip('Database Tests', () => {
+describe('Database Tests', () => {
   before((done) => {
     mongoose
       .connect(process.env.TEST_DATABASE, {
