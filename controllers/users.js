@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const bcrypt = require('bcryptjs');
 
 /**
  * @route   GET /api/v1/users
@@ -82,37 +83,45 @@ exports.checkUsernameExists = async (req, res, next) => {
  * @access  Public
  */
 exports.addUser = async (req, res, next) => {
-  // TODO: hash password
-  try {
-    const newUser = await User.create({
-      username: req.newUsername,
-      firstName: req.newFirstName,
-      lastName: req.newLastName,
-      password: req.newPassword,
-    });
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(req.newPassword, salt, async (err, hash) => {
+      if (err) throw err;
+      req.newPassword = hash;
 
-    return res.status(201).json({
-      success: true,
-      status: 201,
-      data: {
-        user: newUser,
-      },
-    });
-  } catch (err) {
-    if (err.name === 'ValidationError') {
-      const messages = Object.values(err.errors).map((value) => value.message);
+      try {
+        const newUser = await User.create({
+          username: req.newUsername,
+          firstName: req.newFirstName,
+          lastName: req.newLastName,
+          password: req.newPassword,
+        });
 
-      return res.status(400).json({
-        success: false,
-        status: 400,
-        error: messages,
-      });
-    } else {
-      return res.status(500).json({
-        success: false,
-        status: 500,
-        error: err,
-      });
-    }
-  }
+        return res.status(201).json({
+          success: true,
+          status: 201,
+          data: {
+            user: newUser,
+          },
+        });
+      } catch (err) {
+        if (err.name === 'ValidationError') {
+          const messages = Object.values(err.errors).map(
+            (value) => value.message,
+          );
+
+          return res.status(400).json({
+            success: false,
+            status: 400,
+            error: messages,
+          });
+        } else {
+          return res.status(500).json({
+            success: false,
+            status: 500,
+            error: err,
+          });
+        }
+      }
+    });
+  });
 };

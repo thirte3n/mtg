@@ -5,6 +5,7 @@ const User = require('../../../models/User');
 
 const expect = require('chai').expect;
 const request = require('supertest');
+const bcrypt = require('bcryptjs');
 
 const server = require('../../../server');
 
@@ -38,7 +39,7 @@ describe('/api/v1/users routes', () => {
 
     /**
      * FIXME: This spec sometimes return an array of 2 instead of 3 at the time the GET request is sent
-     * I already tested this out with seeding 1000 fake users, but even though the seeding takes a long time, the GET request is only sent after every user in the array is created. So I still can't figure out why this sometimes makes a wrong test result.
+     * I already tested this out with seeding 2000 fake users, but even though the seeding takes a long time (2119ms), the GET request is only sent after every user in the array is created. So I still can't figure out why this sometimes makes a wrong test result.
      */
     it('should return a list of users', () => {
       const fakeUsers = [
@@ -184,9 +185,7 @@ describe('/api/v1/users routes', () => {
           expect(data.user)
             .to.have.property('lastName')
             .equal(fakeUser.lastName);
-          expect(data.user)
-            .to.have.property('password')
-            .equal(fakeUser.password);
+          expect(data.user).to.have.property('password').to.have.lengthOf(60);
         });
     });
 
@@ -214,11 +213,17 @@ describe('/api/v1/users routes', () => {
           expect(user).to.have.property('username').equal(fakeUser.username);
           expect(user).to.have.property('firstName').equal(fakeUser.firstName);
           expect(user).to.have.property('lastName').equal(fakeUser.lastName);
-          expect(user).to.have.property('password').equal(fakeUser.password);
+          expect(user).to.have.property('password').to.have.lengthOf(60);
         });
       });
 
-      it('should encrypt the password');
+      it('should encrypt the password', () => {
+        return User.findOne({ username: fakeUser.username }).then((user) => {
+          bcrypt.compare(fakeUser.password, user.password).then((isMatch) => {
+            expect(isMatch).to.be.true;
+          });
+        });
+      });
     });
   });
 });
