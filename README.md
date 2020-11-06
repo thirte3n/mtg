@@ -215,6 +215,30 @@ TODO:
   * userRooms - Array
     * roomId - Number, required
 
+<!--
+* **Rooms**
+  * room
+    * roomId - Number
+    * roomOwner - String
+    * messages
+      * message
+        * username - String
+        * content - String, required, minlength: 1, maxlength: 140, trim
+        * date - Date, default: Date.now
+    * users
+      * username - String
+      * counter
+        * life - Number, default: 20
+        * poison - Number, default: 0
+        * land
+          * plains - Number, default: 0
+          * island - Number, default: 0
+          * swamp - Number, default: 0
+          * mountain - Number, default: 0
+          * forest - Number, default: 0
+        * dateEdited - Date, default: Date.now
+-->
+
 ## API Routes
 
 * /api/v1/users
@@ -307,3 +331,281 @@ TODO:
       }
       ```
     * Notes: none
+
+* /api/v1/users/:username
+  * Method: GET
+    * Description: Get details of a single user
+    * Access: Public
+    * URL Params: required `userId=[String]`
+    * Data Params: none
+    * Success Response:
+      ```json
+      Status: 200 OK
+      Body:
+      {
+        "success": true,
+        "status": 200,
+        "data": {
+          "user": {
+            "username": "chosenone",
+            "firstName": "Harry",
+            "lastName": "Potter"
+          }
+        }
+      }
+      ```
+    * Error Response:
+      * Error: User does not exist
+        ```json
+        Status: 404 Not Found
+        Body:
+        {
+          "success": false,
+          "status": 404,
+          "error": "Not Found"
+        }
+        ```
+    * Sample Call: `GET http://mtg.justingajitos.com/api/v1/users/1234kjhasdf`
+    * Notes: none
+<!--
+  * Method: PUT
+    * Description: Update user information
+    * Access: Private
+    * URL Params: required `userId=[String]`
+    * Data Params: required
+      ```json
+      x-auth-token: JWT token
+      Body:
+      {
+        "user": {
+          "username": String, Minimium Length:  4, Maximum Length:  20, Optional,
+          "firstName": String, Minimium Length:  1, Maximum Length:  20, Optional,
+          "lastName": String, Minimium Length:  1, Maximum Length:  20, Optional,
+          "password": String, Minimum Length:  8, Maximum Length:  30, Optional
+        }
+      }
+      ```
+    * Success Response:
+      ```json
+      Status: 200 OK
+      Body:
+      {
+        "success": true,
+        "status": 200,
+        "data": {}
+      }
+      ```
+    * Error Response:
+      * Error: Any required payload is missing, username is already taken
+        ```json
+        Status: 400 Bad Request
+        Body:
+        {
+          "success": false,
+          "status": 400,
+          "error": "Bad Request"
+        }
+        ```
+      * Error: User does not exist
+        ```json
+        Status: 404 Not Found
+        Body:
+        {
+          "success": false,
+          "status": 404,
+          "error": "Not Found"
+        }
+        ```
+      * Error: No token sent
+        ```json
+        Status: 401 Not Authorized
+        Body:
+        {
+          "success": false,
+          "status": 401,
+          "error": "Not Authorized"
+        }
+        ```
+    * Sample Call:
+      ```json
+      PUT mtg.justingajitos.com/api/v1/users/1234kjhasdf
+      Content-Type: application/json
+      x-auth-token: token
+
+      Body:
+      {
+        "user": {
+          "username": "chosenone",
+          "firstName": "Harry",
+          "lastName": "Potter",
+          "password": "ginnyweasley"
+        }
+      }
+      ```
+    * Notes:
+
+  * Method: DELETE
+    * Description: Delete a user
+    * Access: Private
+    * URL Params: required `userId=[String]`
+    * Data Params: required `x-auth-token: token`
+    * Success Response:
+      ```json
+      Status: 200 OK
+      Body:
+      {
+        "success": true,
+        "status": 200,
+        "data": {}
+      }
+      ```
+    * Error Response:
+      * Error: User does not exist
+        ```json
+        Status: 404 Not Found
+        Body:
+        {
+          "success": false,
+          "status": 404,
+          "error": "Not Found"
+        }
+        ```
+      * Error: No token sent
+        ```json
+        Status: 401 Not Authorized
+        Body:
+        {
+          "success": false,
+          "status": 401,
+          "error": "Not Authorized"
+        }
+        ```
+    * Sample Call:
+      ```
+      DELETE mtg.justingajitos.com/api/v1/users/1234kjhasdf
+      x-auth-token: token
+      ```
+    * Notes:
+
+* /api/v1/auth
+  * Method: POST
+    * Description: Authenticate/login user and returns JWT token
+    * Access: Public
+    * URL Params: none
+    * Data Params: required
+      ```json
+      {
+        "user": {
+          "username": String, Required,
+          "password": String, Minimum Length = 8, Required
+        }
+      }
+      ```
+    * Success Response:
+      ```json
+      Status: 200 OK
+      Body:
+      {
+        "success": true,
+        "status": 200,
+        "token": token,
+        "data": {
+          "user": {
+            "username": "chosenone",
+            "firstName": "Harry",
+            "lastName": "Potter"
+          }
+        }
+      }
+      ```
+    * Error Response:
+      * Error: Incomplete data submitted, invalid credentials, user does not exist
+        ```json
+        Status: 400 Bad Request
+        Body:
+        {
+          "success": false,
+          "status": 400,
+          "error": "Bad Request"
+        }
+        ```
+    * Sample Call:
+      ```json
+      POST mtg.justingajitos.com/api/v1/auth
+      Content-Type: application/json
+
+      Body:
+      {
+        "user": {
+          "uosername": "chosenone",
+          "password": "ginnyweasley"
+        }
+      }
+      ```
+    * Notes:
+
+* /api/v1/auth/user
+  * Method: GET
+    * Description: Get all user data except for password
+    * Access: Private
+    * URL Params: none
+    * Data Params: required `x-auth-token: token`
+    * Success Response:
+      ```json
+      Status: 200 OK
+      Body:
+      {
+        "success": true,
+        "status": 200,
+        "data": {
+          "User": {
+            "username": "chosenone",
+            "isAdmin": false,
+            "firstName": "Harry",
+            "lastName": "Potter",
+            "dateRegistered": "2020-04-07T04:16:58.713Z",
+            "counter": {
+              "life": 20,
+              "poison": 0,
+              "land": {
+                "plains": 0,
+                "island": 0,
+                "swamp": 0,
+                "mountain": 0,
+                "forest": 0
+              }
+            },
+            "theme": "plains",
+            "userRooms": []
+          },
+        }
+      }
+      ```
+    * Error Response:
+      * Error: No token sent
+        ```json
+        Status: 401 Not Authorized
+        Body:
+        {
+          "success": false,
+          "status": 401,
+          "error": "Not Authorized"
+        }
+        ```
+      * Error: Token not valid
+        ```json
+        Status: 400 Bad Request
+        Body:
+        {
+          "success": false,
+          "status": 400,
+          "error": "Bad Request"
+        }
+        ```
+    * Sample Call:
+      ```
+      GET mtg.justingajitos.com/api/v1/auth/user
+      x-auth-token: token
+      ```
+    * Notes:
+-->

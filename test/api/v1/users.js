@@ -22,6 +22,13 @@ describe('/api/v1/users routes', () => {
     });
   });
 
+  const fakeUser = {
+    username: 'hifumin',
+    firstName: 'Hifumi',
+    lastName: 'Takimoto',
+    password: 'hedgehog',
+  };
+
   describe('GET /api/v1/users', () => {
     it('should return an object with properties "success, status, count, and data"', () => {
       return request(server)
@@ -82,13 +89,6 @@ describe('/api/v1/users routes', () => {
   });
 
   describe('POST /api/v1/users', () => {
-    const fakeUser = {
-      username: 'hifumin',
-      firstName: 'Hifumi',
-      lastName: 'Takimoto',
-      password: 'hedgehog',
-    };
-
     const expectCorrectErrorResponse = (res) => {
       expect(res.body.success).to.be.a('boolean').equal(false);
       expect(res.body.status).to.be.a('number').equal(400);
@@ -223,6 +223,24 @@ describe('/api/v1/users routes', () => {
             expect(isMatch).to.be.true;
           });
         });
+      });
+    });
+
+    describe('GET /api/v1/users/:username', () => {
+      it('should retrieve a user with the given username', () => {
+        User.create(fakeUser);
+
+        return request(server)
+          .get(`/api/v1/users/${fakeUser.username}`)
+          .expect(200)
+          .then((res) => {
+            const { success, status, data } = res.body;
+            const { username } = data;
+
+            expect(success).to.be.a('boolean').equal(true);
+            expect(status).to.be.a('number').equal(200);
+            expect(username).to.be.a('string').equal(fakeUser.username);
+          });
       });
     });
   });
