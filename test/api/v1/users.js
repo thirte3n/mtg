@@ -243,5 +243,60 @@ describe('/api/v1/users routes', () => {
           });
       });
     });
+
+    describe('PUT /api/v1/users/:username', () => {
+      it('should update a user with the given username', () => {
+        User.create(fakeUser);
+
+        const { firstName, ...fakeUserWithNewFirstName } = fakeUser;
+        fakeUserWithNewFirstName.firstName = 'Aoba';
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(fakeUserWithNewFirstName)
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .then((res) => {
+            const { success, status, data } = res.body;
+            const { firstName } = data;
+
+            expect(success).to.be.a('boolean').equal(true);
+            expect(status).to.be.a('number').equal(200);
+            expect(firstName)
+              .to.be.a('string')
+              .equal(fakeUserWithNewFirstName.firstName);
+          });
+      });
+    });
+
+    describe('DELETE /api/v1/users/:username', () => {
+      it('should return the correct response', () => {
+        User.create(fakeUser);
+
+        return request(server)
+          .delete(`/api/v1/users/${fakeUser.username}`)
+          .expect(200)
+          .then((res) => {
+            const { success, status } = res.body;
+
+            expect(success).to.be.a('boolean').equal(true);
+            expect(status).to.be.a('number').equal(200);
+          });
+      });
+
+      describe('DELETE /api/v1/users/:username after a successful DELETE request', () => {
+        beforeEach(() => {
+          return request(server)
+            .delete(`/api/v1/users/${fakeUser.username}`)
+            .expect(200);
+        });
+
+        it('should delete user from the database', () => {
+          return User.findOne({ username: fakeUser.username }).then((user) => {
+            expect(user).to.be.null;
+          });
+        });
+      });
+    });
   });
 });

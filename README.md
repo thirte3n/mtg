@@ -336,7 +336,7 @@ TODO:
   * Method: GET
     * Description: Get details of a single user
     * Access: Public
-    * URL Params: required `userId=[String]`
+    * URL Params: required `username=[String]`
     * Data Params: none
     * Success Response:
       ```json
