@@ -1,6 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
-
+// TODO: return every info from user except for password => .select('-password')
 /**
  * @route   GET /api/v1/users
  * @desc    Get list of all users
@@ -105,6 +105,7 @@ exports.addUser = async (req, res, next) => {
         });
       } catch (err) {
         if (err.name === 'ValidationError') {
+          // Catch mongoose model validation error
           const messages = Object.values(err.errors).map(
             (value) => value.message,
           );
@@ -124,4 +125,8 @@ exports.addUser = async (req, res, next) => {
       }
     });
   });
+};
+
+exports.getUser = async (req, res, next) => {
+  res.sendStatus(200);
 };

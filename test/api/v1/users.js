@@ -10,6 +10,7 @@ const bcrypt = require('bcryptjs');
 const server = require('../../../server');
 
 describe('/api/v1/users routes', () => {
+  // TODO: Maybe seed fakeUsers before each test?
   beforeEach((done) => {
     User.deleteMany({}, (err) => {
       done();
@@ -81,8 +82,8 @@ describe('/api/v1/users routes', () => {
           expect(data).to.be.an('array').to.have.lengthOf(3);
 
           data.forEach((user) => {
-            expect(user).to.have.property('_id');
-            expect(user).to.have.property('username');
+            expect(user).to.have.ownProperty('_id');
+            expect(user).to.have.ownProperty('username');
           });
         });
     });
@@ -175,17 +176,19 @@ describe('/api/v1/users routes', () => {
 
           expect(success).to.be.a('boolean').equal(true);
           expect(status).to.be.a('number').equal(201);
-          expect(data).to.have.property('user');
+          expect(data).to.have.ownProperty('user');
           expect(data.user)
-            .to.have.property('username')
+            .to.have.ownProperty('username')
             .equal(fakeUser.username);
           expect(data.user)
-            .to.have.property('firstName')
+            .to.have.ownProperty('firstName')
             .equal(fakeUser.firstName);
           expect(data.user)
-            .to.have.property('lastName')
+            .to.have.ownProperty('lastName')
             .equal(fakeUser.lastName);
-          expect(data.user).to.have.property('password').to.have.lengthOf(60);
+          expect(data.user)
+            .to.have.ownProperty('password')
+            .to.have.lengthOf(60);
         });
     });
 
@@ -225,76 +228,91 @@ describe('/api/v1/users routes', () => {
         });
       });
     });
+  });
 
-    describe('GET /api/v1/users/:username', () => {
-      it('should retrieve a user with the given username', () => {
-        User.create(fakeUser);
+  describe('GET /api/v1/users/:username', () => {
+    it(
+      'should return a single user object i.e. a single user should be in the data property',
+    );
+    it('should retrieve the correct user with the given username', () => {
+      User.create(fakeUser);
 
-        return request(server)
-          .get(`/api/v1/users/${fakeUser.username}`)
-          .expect(200)
-          .then((res) => {
-            const { success, status, data } = res.body;
-            const { username } = data;
+      return request(server)
+        .get(`/api/v1/users/${fakeUser.username}`)
+        .expect(200)
+        .then((res) => {
+          const { success, status, data } = res.body;
+          const { username } = data;
 
-            expect(success).to.be.a('boolean').equal(true);
-            expect(status).to.be.a('number').equal(200);
-            expect(username).to.be.a('string').equal(fakeUser.username);
-          });
-      });
+          expect(success).to.be.a('boolean').equal(true);
+          expect(status).to.be.a('number').equal(200);
+          expect(username).to.be.a('string').equal(fakeUser.username);
+        });
     });
 
-    describe('PUT /api/v1/users/:username', () => {
-      it('should update a user with the given username', () => {
-        User.create(fakeUser);
+    it('should return a 404 errror if called with an invalid username');
+  });
 
-        const { firstName, ...fakeUserWithNewFirstName } = fakeUser;
-        fakeUserWithNewFirstName.firstName = 'Aoba';
+  xdescribe('PUT /api/v1/users/:username', () => {
+    // TODO: Seed database with an fakeUsers
+    // TODO: Check if the other users are not updated and only the correct user is updated
+    it('should update the correct user with the given username', () => {
+      User.create(fakeUser);
 
-        return request(server)
-          .put(`/api/v1/users/${fakeUser.username}`)
-          .send(fakeUserWithNewFirstName)
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .then((res) => {
-            const { success, status, data } = res.body;
-            const { firstName } = data;
+      const { firstName, ...fakeUserWithNewFirstName } = fakeUser;
+      fakeUserWithNewFirstName.firstName = 'Aoba';
 
-            expect(success).to.be.a('boolean').equal(true);
-            expect(status).to.be.a('number').equal(200);
-            expect(firstName)
-              .to.be.a('string')
-              .equal(fakeUserWithNewFirstName.firstName);
-          });
-      });
+      return request(server)
+        .put(`/api/v1/users/${fakeUser.username}`)
+        .send(fakeUserWithNewFirstName)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((res) => {
+          const { success, status, data } = res.body;
+          const { firstName } = data;
+
+          expect(success).to.be.a('boolean').equal(true);
+          expect(status).to.be.a('number').equal(200);
+          expect(firstName)
+            .to.be.a('string')
+            .equal(fakeUserWithNewFirstName.firstName);
+        });
     });
 
-    describe('DELETE /api/v1/users/:username', () => {
-      it('should return the correct response', () => {
-        User.create(fakeUser);
+    it('should update the correct user and persists to the database');
+    it('should return a 404 errror if called with an invalid username');
+    it('should not change the database when called with an invalid username');
+  });
 
+  xdescribe('DELETE /api/v1/users/:username', () => {
+    it('should return the correct response', () => {
+      User.create(fakeUser);
+
+      return request(server)
+        .delete(`/api/v1/users/${fakeUser.username}`)
+        .expect(200)
+        .then((res) => {
+          const { success, status } = res.body;
+
+          expect(success).to.be.a('boolean').equal(true);
+          expect(status).to.be.a('number').equal(200);
+        });
+    });
+
+    it('should return a 404 errror if called with an invalid username');
+
+    describe('DELETE /api/v1/users/:username after a successful DELETE request', () => {
+      beforeEach(() => {
+        // TODO: Seed database with an fakeUsers
+        // TODO: Check if the other users are not deleted and only the correct user is deleted
         return request(server)
           .delete(`/api/v1/users/${fakeUser.username}`)
-          .expect(200)
-          .then((res) => {
-            const { success, status } = res.body;
-
-            expect(success).to.be.a('boolean').equal(true);
-            expect(status).to.be.a('number').equal(200);
-          });
+          .expect(200);
       });
 
-      describe('DELETE /api/v1/users/:username after a successful DELETE request', () => {
-        beforeEach(() => {
-          return request(server)
-            .delete(`/api/v1/users/${fakeUser.username}`)
-            .expect(200);
-        });
-
-        it('should delete user from the database', () => {
-          return User.findOne({ username: fakeUser.username }).then((user) => {
-            expect(user).to.be.null;
-          });
+      it('should delete the user from the database', () => {
+        return User.findOne({ username: fakeUser.username }).then((user) => {
+          expect(user).to.be.null;
         });
       });
     });
