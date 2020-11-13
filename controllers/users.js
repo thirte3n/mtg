@@ -1,6 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
-// TODO: return every info from user except for password => .select('-password')
+
 /**
  * @route   GET /api/v1/users
  * @desc    Get list of all users
@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs');
  */
 exports.getUsers = async (req, res, next) => {
   try {
-    const users = await User.find({}).select({ _id: 1, username: 1 });
+    const users = await User.find({}).select('-password -isAdmin');
 
     return res.status(200).json({
       success: true,
@@ -128,5 +128,11 @@ exports.addUser = async (req, res, next) => {
 };
 
 exports.getUser = async (req, res, next) => {
-  res.sendStatus(200);
+  res.status(200).json({
+    success: true,
+    status: 200,
+    data: {
+      user: req.filteredUser,
+    },
+  });
 };

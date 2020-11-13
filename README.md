@@ -257,12 +257,46 @@ TODO:
         "count" : 2,
         "data": [
           {
-            "_id": "1234567890abcdef12345678",
-            "username": "Gaji"
+            "counter": {
+              "land": {
+                "plains": 0,
+                "island": 0,
+                "swamp": 0,
+                "mountain": 0,
+                "forest": 0
+              },
+              "life": 20,
+              "poison": 0
+            },
+            "theme": "plains",
+            "_id": "5fae6561da4490340888017e",
+            "username": "hifumin",
+            "firstName": "Hifumi",
+            "lastName": "Takimoto",
+            "dateRegistered": "2020-11-13T10:52:17.061Z",
+            "userRooms": [],
+            "__v": 0
           },
           {
-            "_id": "1234567890abcdef12345679",
-            "username": "Justin"
+            "counter": {
+              "land": {
+                "plains": 0,
+                "island": 0,
+                "swamp": 0,
+                "mountain": 0,
+                "forest": 0
+              },
+              "life": 20,
+              "poison": 0
+            },
+            "theme": "plains",
+            "_id": "5fae667bda4490340888017f",
+            "username": "aocchi",
+            "firstName": "Aoba",
+            "lastName": "Suzukaze",
+            "dateRegistered": "2020-11-13T10:56:59.487Z",
+            "userRooms": [],
+            "__v": 0
           }
         ]
       }
@@ -303,19 +337,53 @@ TODO:
       {
         "success": true,
         "status": 201,
-        "data": {}
+        "data": {
+          "user" : {
+            "counter": {
+              "land": {
+                "plains": 0,
+                "island": 0,
+                "swamp": 0,
+                "mountain": 0,
+                "forest": 0
+              },
+              "life": 20,
+              "poison": 0
+            },
+            "isAdmin": false,
+            "theme": "plains",
+            "_id": "5fae66ffda44903408880180",
+            "username": "kochan",
+            "firstName": "Kou",
+            "lastName": "Yagami",
+            "password": "$2a$10$ARGWhGizXo6WmjX6NZFkDeCnAsC48vBUgQyYMhi8YPJqAJ9gH4tBW",
+            "dateRegistered": "2020-11-13T10:59:11.278Z",
+            "userRooms": [],
+            "__v": 0
+          }
+        }
       ```
     * Error Response:
-      * Error: A required field is missing or data type is incorrect, username is already taken, input length too short or short
-      ```json
-      Status: 400 Bad Request
-      Body:
-      {
-        "success": false,
-        "status": 400,
-        "error": "Bad Request"
-      }
-      ```
+      * Error: A required field is missing or data type is incorrect, input length too short or short
+        ```json
+        Status: 400 Bad Request
+        Body:
+        {
+          "success": false,
+          "status": 400,
+          "error": "Bad Request"
+        }
+        ```
+      * Error: Username is already taken
+        ```json
+        Status: 400 Bad Request
+        Body:
+        {
+          "success": false,
+          "status": 400,
+          "error": "Username is already taken"
+        }
+        ```
     * Sample Call
       ```json
       POST mtg.justingajitos.com/api/v1/users
@@ -323,10 +391,10 @@ TODO:
       Body:
       {
         "user": {
-          "username": "chosenone",
-          "firstName": "Harry",
-          "lastName": "Potter",
-          "password": "ginnyweasley"
+          "username": "aocchi",
+          "firstName": "Aoba",
+          "lastName": "Suzukaze",
+          "password": "nenecchi"
         }
       }
       ```
@@ -347,9 +415,25 @@ TODO:
         "status": 200,
         "data": {
           "user": {
-            "username": "chosenone",
-            "firstName": "Harry",
-            "lastName": "Potter"
+            "counter": {
+              "land": {
+                "plains": 0,
+                "island": 0,
+                "swamp": 0,
+                "mountain": 0,
+                "forest": 0
+              },
+              "life": 20,
+              "poison": 0
+            },
+            "theme": "plains",
+            "_id": "5fae6ec501672e343c2bf423",
+            "username": "hifumin",
+            "firstName": "Hifumi",
+            "lastName": "Takimoto",
+            "dateRegistered": "2020-11-13T11:32:21.006Z",
+            "userRooms": [],
+            "__v": 0
           }
         }
       }
@@ -362,10 +446,10 @@ TODO:
         {
           "success": false,
           "status": 404,
-          "error": "Not Found"
+          "error": "User does not exist"
         }
         ```
-    * Sample Call: `GET http://mtg.justingajitos.com/api/v1/users/1234kjhasdf`
+    * Sample Call: `GET http://mtg.justingajitos.com/api/v1/users/hifumin`
     * Notes: none
 <!--
   * Method: PUT

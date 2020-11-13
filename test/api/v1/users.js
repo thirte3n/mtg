@@ -192,6 +192,8 @@ describe('/api/v1/users routes', () => {
         });
     });
 
+    it('should should not return the isAdmin property');
+
     describe('POST /api/v1/users after a succesful POST request', () => {
       beforeEach(() => {
         return request(server)
@@ -231,18 +233,27 @@ describe('/api/v1/users routes', () => {
   });
 
   describe('GET /api/v1/users/:username', () => {
-    it(
-      'should return a single user object i.e. a single user should be in the data property',
-    );
-    it('should retrieve the correct user with the given username', () => {
+    beforeEach((done) => {
       User.create(fakeUser);
+      done();
+    });
 
+    it('should return a single user object', () => {
+      return request(server)
+        .get(`/api/v1/users/${fakeUser.username}`)
+        .expect(200)
+        .then((res) => {
+          expect(res.body.data).to.not.be.an('array');
+        });
+    });
+
+    it('should retrieve the correct user with the given username', () => {
       return request(server)
         .get(`/api/v1/users/${fakeUser.username}`)
         .expect(200)
         .then((res) => {
           const { success, status, data } = res.body;
-          const { username } = data;
+          const { username } = data.user;
 
           expect(success).to.be.a('boolean').equal(true);
           expect(status).to.be.a('number').equal(200);
@@ -250,7 +261,26 @@ describe('/api/v1/users routes', () => {
         });
     });
 
-    it('should return a 404 errror if called with an invalid username');
+    it('should not return the password and isAdmin properties', () => {
+      return request(server)
+        .get(`/api/v1/users/${fakeUser.username}`)
+        .expect(200)
+        .then((res) => {
+          expect(res.body.data.user.password).to.be.a('undefined');
+          expect(res.body.data.user.isAdmin).to.be.a('undefined');
+        });
+    });
+
+    it('should return a 404 errror if called with an invalid username', () => {
+      return request(server)
+        .get('/api/v1/users/hifumin1')
+        .expect(404)
+        .then((res) => {
+          expect(res.body.success).to.be.a('boolean').equal(false);
+          expect(res.body.status).to.be.a('number').equal(404);
+          expect(res.body.error).to.be.a('string').equal('User does not exist');
+        });
+    });
   });
 
   xdescribe('PUT /api/v1/users/:username', () => {

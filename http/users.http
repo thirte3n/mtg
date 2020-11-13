@@ -19,3 +19,35 @@ Content-Type: application/json
     "password": "hedgehog"
   }
 }
+
+###
+
+POST {{URL}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "user" : {
+    "username": "aocchi",
+    "firstName": "Aoba",
+    "lastName": "Suzukaze",
+    "password": "nenecchi"
+  }
+}
+
+###
+
+POST {{URL}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "user" : {
+    "username": "kochan",
+    "firstName": "Kou",
+    "lastName": "Yagami",
+    "password": "tooyamar"
+  }
+}
+
+###
+
+GET {{URL}}/hifumin HTTP/1.1
