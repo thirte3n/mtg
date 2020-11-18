@@ -336,7 +336,7 @@ describe('/api/v1/users routes', () => {
     it('should not change the database when called with an invalid username');
   });
 
-  xdescribe('DELETE /api/v1/users/:username', () => {
+  describe('DELETE /api/v1/users/:username', () => {
     it('should return the correct response', () => {
       User.create(fakeUser);
 
@@ -351,20 +351,43 @@ describe('/api/v1/users routes', () => {
         });
     });
 
-    it('should return a 404 errror if called with an invalid username');
+    it('should return a 404 errror if called with an invalid username', () => {
+      User.create(fakeUser);
+
+      return request(server)
+        .delete(`/api/v1/users/${fakeUser.username}a`)
+        .expect(404)
+        .then((res) => {
+          const { success, status, error } = res.body;
+
+          expect(success).to.be.a('boolean').equal(false);
+          expect(status).to.be.a('number').equal(404);
+          expect(error).to.be.a('string').equal('User does not exist');
+        });
+    });
 
     describe('DELETE /api/v1/users/:username after a successful DELETE request', () => {
       beforeEach(() => {
-        // TODO: Seed database with an fakeUsers
-        // TODO: Check if the other users are not deleted and only the correct user is deleted
+        User.create(fakeUsers);
+
         return request(server)
-          .delete(`/api/v1/users/${fakeUser.username}`)
+          .delete(`/api/v1/users/${fakeUsers[2].username}`)
           .expect(200);
       });
 
       it('should delete the user from the database', () => {
-        return User.findOne({ username: fakeUser.username }).then((user) => {
-          expect(user).to.be.null;
+        return User.findOne({ username: fakeUsers[2].username }).then(
+          (user) => {
+            expect(user).to.be.null;
+          },
+        );
+      });
+
+      it('should not delete other users from the database', () => {
+        return User.find({}).then((users) => {
+          expect(users).to.be.an('array').to.have.lengthOf(2);
+          expect(users[0].username).to.equal(fakeUsers[0].username);
+          expect(users[1].username).to.equal(fakeUsers[1].username);
         });
       });
     });

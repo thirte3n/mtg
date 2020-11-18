@@ -10,6 +10,7 @@ const {
   addUser,
   getUser,
   updateUser,
+  deleteUser,
 } = require('../../../controllers/users');
 const e = require('express');
 
@@ -43,6 +44,6 @@ usersRouter.param('username', async (req, res, next, username) => {
   }
 });
 
-usersRouter.route('/:username').get(getUser).put(updateUser);
+usersRouter.route('/:username').get(getUser).put(updateUser).delete(deleteUser);
 
 module.exports = usersRouter;

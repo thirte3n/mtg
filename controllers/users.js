@@ -164,3 +164,20 @@ exports.updateUser = async (req, res, next) => {
     });
   }
 };
+
+exports.deleteUser = async (req, res, next) => {
+  try {
+    await User.findOneAndRemove({ username: req.user.username });
+
+    res.status(200).json({
+      success: true,
+      status: 200,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      status: 500,
+      error: err,
+    });
+  }
+};
