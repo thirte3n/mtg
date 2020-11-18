@@ -192,9 +192,27 @@ describe('/api/v1/users routes', () => {
         });
     });
 
-    it('should not return the password property');
+    it('should not return the password property', () => {
+      return request(server)
+        .post('/api/v1/users')
+        .send({ user: fakeUser })
+        .expect('Content-Type', /json/)
+        .expect(201)
+        .then((res) => {
+          expect(res.body.data.user.password).to.be.undefined;
+        });
+    });
 
-    it('should not return the isAdmin property');
+    it('should not return the isAdmin property', () => {
+      return request(server)
+        .post('/api/v1/users')
+        .send({ user: fakeUser })
+        .expect('Content-Type', /json/)
+        .expect(201)
+        .then((res) => {
+          expect(res.body.data.user.isAdmin).to.be.undefined;
+        });
+    });
 
     describe('POST /api/v1/users after a succesful POST request', () => {
       beforeEach(() => {
