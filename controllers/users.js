@@ -96,11 +96,13 @@ exports.addUser = async (req, res, next) => {
           password: req.newPassword,
         });
 
+        const { password, isAdmin, ...newFilteredUser } = newUser.toObject();
+
         return res.status(201).json({
           success: true,
           status: 201,
           data: {
-            user: newUser,
+            user: newFilteredUser,
           },
         });
       } catch (err) {
@@ -135,4 +137,30 @@ exports.getUser = async (req, res, next) => {
       user: req.filteredUser,
     },
   });
+};
+
+exports.updateUser = async (req, res, next) => {
+  // HACK: You can't update only a select number of properties inside `counter`. In doing so, you will be able to update those property but will revert all the other properties inside `counter` to their default values.
+  // If you're going to change any value inside `counter`, you must send the complete `counter` object with all its properties and values.
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { username: req.user.username },
+      { ...req.body.user },
+      { new: true, projection: '-password -isAdmin' },
+    );
+
+    return res.status(200).json({
+      success: true,
+      status: 200,
+      data: {
+        user: updatedUser,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      status: 500,
+      error: err,
+    });
+  }
 };

@@ -9,6 +9,7 @@ const {
   checkUsernameExists,
   addUser,
   getUser,
+  updateUser,
 } = require('../../../controllers/users');
 const e = require('express');
 
@@ -20,12 +21,10 @@ usersRouter
 usersRouter.param('username', async (req, res, next, username) => {
   try {
     const user = await User.findOne({ username });
-    const filteredUser = await User.findOne({ username }).select(
-      '-password -isAdmin',
-    );
 
-    if (user && filteredUser) {
+    if (user) {
       req.user = user;
+      const { password, isAdmin, ...filteredUser } = user.toObject();
       req.filteredUser = filteredUser;
       next();
     } else {
@@ -44,6 +43,6 @@ usersRouter.param('username', async (req, res, next, username) => {
   }
 });
 
-usersRouter.route('/:username').get(getUser);
+usersRouter.route('/:username').get(getUser).put(updateUser);
 
 module.exports = usersRouter;

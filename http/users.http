@@ -51,3 +51,104 @@ Content-Type: application/json
 ###
 
 GET {{URL}}/hifumin HTTP/1.1
+
+###
+
+PUT {{URL}}/hifumin HTTP/1.1
+Content-Type: application/json
+
+{
+  "user": {
+    "firstName": "Aoba"
+  }
+}
+
+###
+
+PUT {{URL}}/hifumin HTTP/1.1
+Content-Type: application/json
+
+{
+  "user": {
+    "theme": "swamp"
+  }
+}
+
+###
+
+PUT {{URL}}/hifumin HTTP/1.1
+Content-Type: application/json
+
+{
+  "user": {
+    "counter": {
+      "poison": 500
+    }
+  }
+}
+
+###
+
+PUT {{URL}}/hifumin HTTP/1.1
+Content-Type: application/json
+
+{
+  "user": {
+    "counter": {
+      "life": 100
+    }
+  }
+}
+
+###
+
+PUT {{URL}}/hifumin HTTP/1.1
+Content-Type: application/json
+
+{
+  "user": {
+    "counter": {
+      "land": {
+        "plains": 500
+      }
+    }
+  }
+}
+
+###
+
+PUT {{URL}}/hifumin HTTP/1.1
+Content-Type: application/json
+
+{
+  "user": {
+    "counter": {
+      "land": {
+        "plains": 1,
+        "island": 2,
+        "swamp": 3,
+        "mountain": 4,
+        "forest": 5
+      },
+      "life": 17,
+      "poison": 4
+    }
+  }
+}
+###
+
+PUT {{URL}}/hifumin HTTP/1.1
+Content-Type: application/json
+
+{
+  "user": {
+    "firstName": "Hifumi",
+    "theme": "plains",
+    "counter": {
+      "poison": 0,
+      "land": {
+        "island": 200
+      }
+    }
+  }
+}

@@ -30,6 +30,27 @@ describe('/api/v1/users routes', () => {
     password: 'hedgehog',
   };
 
+  const fakeUsers = [
+    {
+      username: 'hifumin',
+      firstName: 'Hifumi',
+      lastName: 'Takimoto',
+      password: 'hedgehog',
+    },
+    {
+      username: 'aocchi',
+      firstName: 'Aoba',
+      lastName: 'Suzukaze',
+      password: 'nenecchi',
+    },
+    {
+      username: 'kochan',
+      firstName: 'Kou',
+      lastName: 'Yagami',
+      password: 'tooyamar',
+    },
+  ];
+
   describe('GET /api/v1/users', () => {
     it('should return an object with properties "success, status, count, and data"', () => {
       return request(server)
@@ -50,27 +71,6 @@ describe('/api/v1/users routes', () => {
      * I already tested this out with seeding 2000 fake users, but even though the seeding takes a long time (2119ms), the GET request is only sent after every user in the array is created. So I still can't figure out why this sometimes makes a wrong test result.
      */
     it('should return a list of users', () => {
-      const fakeUsers = [
-        {
-          username: 'hifumin',
-          firstName: 'Hifumi',
-          lastName: 'Takimoto',
-          password: 'hedgehog',
-        },
-        {
-          username: 'aocchi',
-          firstName: 'Aoba',
-          lastName: 'Suzukaze',
-          password: 'nenecchi',
-        },
-        {
-          username: 'kochan',
-          firstName: 'Kou',
-          lastName: 'Yagami',
-          password: 'tooyamar',
-        },
-      ];
-
       User.create(fakeUsers);
 
       return request(server)
@@ -186,13 +186,15 @@ describe('/api/v1/users routes', () => {
           expect(data.user)
             .to.have.ownProperty('lastName')
             .equal(fakeUser.lastName);
-          expect(data.user)
-            .to.have.ownProperty('password')
-            .to.have.lengthOf(60);
+          // expect(data.user)
+          //   .to.have.ownProperty('password')
+          //   .to.have.lengthOf(60);
         });
     });
 
-    it('should should not return the isAdmin property');
+    it('should not return the password property');
+
+    it('should not return the isAdmin property');
 
     describe('POST /api/v1/users after a succesful POST request', () => {
       beforeEach(() => {
@@ -283,17 +285,18 @@ describe('/api/v1/users routes', () => {
     });
   });
 
-  xdescribe('PUT /api/v1/users/:username', () => {
-    // TODO: Seed database with an fakeUsers
-    // TODO: Check if the other users are not updated and only the correct user is updated
-    it('should update the correct user with the given username', () => {
-      User.create(fakeUser);
+  describe('PUT /api/v1/users/:username', () => {
+    beforeEach((done) => {
+      User.create(fakeUsers);
+      done();
+    });
 
-      const { firstName, ...fakeUserWithNewFirstName } = fakeUser;
+    it('should update the correct user with the given username', () => {
+      const { firstName, ...fakeUserWithNewFirstName } = fakeUsers[0];
       fakeUserWithNewFirstName.firstName = 'Aoba';
 
       return request(server)
-        .put(`/api/v1/users/${fakeUser.username}`)
+        .put(`/api/v1/users/${fakeUsers[0].username}`)
         .send(fakeUserWithNewFirstName)
         .expect('Content-Type', /json/)
         .expect(200)
@@ -310,6 +313,7 @@ describe('/api/v1/users routes', () => {
     });
 
     it('should update the correct user and persists to the database');
+    it('should not change the other users in the databse');
     it('should return a 404 errror if called with an invalid username');
     it('should not change the database when called with an invalid username');
   });
