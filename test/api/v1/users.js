@@ -310,23 +310,28 @@ describe('/api/v1/users routes', () => {
     });
 
     it('should update the correct user with the given username', () => {
-      const { firstName, ...fakeUserWithNewFirstName } = fakeUsers[0];
-      fakeUserWithNewFirstName.firstName = 'Aoba';
+      const newFirstName = {
+        user: {
+          firstName: 'Aoba',
+        },
+      };
 
       return request(server)
         .put(`/api/v1/users/${fakeUsers[0].username}`)
-        .send(fakeUserWithNewFirstName)
+        .send(newFirstName)
         .expect('Content-Type', /json/)
         .expect(200)
         .then((res) => {
           const { success, status, data } = res.body;
-          const { firstName } = data;
+          const { username, firstName } = data.user;
+          console.log(data.user);
 
           expect(success).to.be.a('boolean').equal(true);
           expect(status).to.be.a('number').equal(200);
+          expect(username).to.be.a('string').equal(fakeUsers[0].username);
           expect(firstName)
             .to.be.a('string')
-            .equal(fakeUserWithNewFirstName.firstName);
+            .equal(newFirstName.user.firstName);
         });
     });
 
@@ -334,6 +339,14 @@ describe('/api/v1/users routes', () => {
     it('should not change the other users in the databse');
     it('should return a 404 errror if called with an invalid username');
     it('should not change the database when called with an invalid username');
+    it('should not update the user when called with an invalid body');
+    it('should not be able to change dateRegistered and _id properties');
+    it(
+      'should only be able to change admin priveleges by another user with admin priveleges',
+    );
+    it('should be accessible to username owner');
+    it('should be accessible to users with admin priveleged');
+    it('should be not be accessible to unauthorized users');
   });
 
   describe('DELETE /api/v1/users/:username', () => {
@@ -365,6 +378,10 @@ describe('/api/v1/users routes', () => {
           expect(error).to.be.a('string').equal('User does not exist');
         });
     });
+
+    it('should be accessible to username owner');
+    it('should be accessible to users with admin priveleged');
+    it('should be not be accessible to unauthorized users');
 
     describe('DELETE /api/v1/users/:username after a successful DELETE request', () => {
       beforeEach(() => {

@@ -451,12 +451,12 @@ TODO:
         ```
     * Sample Call: `GET http://mtg.justingajitos.com/api/v1/users/hifumin`
     * Notes: none
-<!--
+
   * Method: PUT
     * Description: Update user information
     * Access: Private
     * URL Params: required `userId=[String]`
-    * Data Params: required
+    * Data Params: required at least 1 change
       ```json
       x-auth-token: JWT token
       Body:
@@ -512,7 +512,7 @@ TODO:
         ```
     * Sample Call:
       ```json
-      PUT mtg.justingajitos.com/api/v1/users/1234kjhasdf
+      PUT mtg.justingajitos.com/api/v1/users/hifumin
       Content-Type: application/json
       x-auth-token: token
 
@@ -526,7 +526,7 @@ TODO:
         }
       }
       ```
-    * Notes:
+    * Notes: when updating the values inside "counter", you must send the complete "counter" object with all its properties and values, or else, only the sent values will be updated and the rest of the "counter" values will revert to their default value as defined in the schema.
 
   * Method: DELETE
     * Description: Delete a user
@@ -540,7 +540,6 @@ TODO:
       {
         "success": true,
         "status": 200,
-        "data": {}
       }
       ```
     * Error Response:
@@ -566,11 +565,11 @@ TODO:
         ```
     * Sample Call:
       ```
-      DELETE mtg.justingajitos.com/api/v1/users/1234kjhasdf
+      DELETE mtg.justingajitos.com/api/v1/users/hifumin
       x-auth-token: token
       ```
-    * Notes:
-
+    * Notes: none
+<!--
 * /api/v1/auth
   * Method: POST
     * Description: Authenticate/login user and returns JWT token
