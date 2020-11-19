@@ -25,7 +25,7 @@ exports.getUsers = async (req, res, next) => {
   }
 };
 
-exports.validateRequiredInput = (req, res, next) => {
+exports.checkRequiredInput = (req, res, next) => {
   req.newUser = req.body.user;
 
   if (
@@ -46,6 +46,7 @@ exports.validateRequiredInput = (req, res, next) => {
 
 exports.validateInput = async (req, res, next) => {
   req.newUser = req.body.user;
+
   const {
     username,
     password,
@@ -54,6 +55,8 @@ exports.validateInput = async (req, res, next) => {
     lastName,
     dateRegistered,
     counter,
+    theme,
+    userRooms,
   } = req.newUser;
 
   if (dateRegistered) {
@@ -103,6 +106,55 @@ exports.validateInput = async (req, res, next) => {
       });
     }
   }
+
+  if (isAdmin) {
+    if (typeof isAdmin !== Boolean) {
+      return res.status(400).json({
+        success: false,
+        status: 400,
+        error: 'Bad Request',
+      });
+    }
+  }
+
+  if (counter) {
+    if (
+      typeof counter.life !== Number ||
+      typeof counter.poison !== Number ||
+      typeof counter.land.plains !== Number ||
+      typeof counter.land.island !== Number ||
+      typeof counter.land.swamp !== Number ||
+      typeof counter.land.mountain !== Number ||
+      typeof counter.land.forest !== Number
+    ) {
+      return res.status(400).json({
+        success: false,
+        status: 400,
+        error: 'Bad Request',
+      });
+    }
+  }
+
+  if (theme) {
+    if (!['plains', 'island', 'swamp', 'mountain', 'forest'].includes(theme)) {
+      return res.status(400).json({
+        success: false,
+        status: 400,
+        error: 'Bad Request',
+      });
+    }
+  }
+
+  if (userRooms && userRooms.length > 0) {
+    if (userRooms.every((roomId) => typeof roomId === Number)) {
+      return res.status(400).json({
+        success: false,
+        status: 400,
+        error: 'Bad Request',
+      });
+    }
+  }
+
   next();
 };
 
@@ -193,6 +245,7 @@ exports.getUser = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
   // HACK: You can't update only a select number of properties inside `counter`. In doing so, you will be able to update those property but will revert all the other properties inside `counter` to their default values.
   // If you're going to change any value inside `counter`, you must send the complete `counter` object with all its properties and values.
+  // HACK: The same problem also goes for the userRooms array property
   try {
     const updatedUser = await User.findOneAndUpdate(
       { username: req.user.username },

@@ -5,11 +5,11 @@ const User = require('../../../models/User');
 
 const {
   getUsers,
-  validateRequiredInput,
+  checkRequiredInput,
+  validateInput,
   checkUsernameExists,
   addUser,
   getUser,
-  validateInput,
   updateUser,
   deleteUser,
 } = require('../../../controllers/users');
@@ -18,7 +18,7 @@ const e = require('express');
 usersRouter
   .route('/')
   .get(getUsers)
-  .post(validateRequiredInput, validateInput, checkUsernameExists, addUser);
+  .post(checkRequiredInput, validateInput, checkUsernameExists, addUser);
 
 usersRouter.param('username', async (req, res, next, username) => {
   try {

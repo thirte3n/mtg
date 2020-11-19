@@ -103,6 +103,21 @@ Content-Type: application/json
 
 {
   "user": {
+    "userRooms": [
+      {
+        "roomId": 3
+      }
+    ]
+  }
+}
+
+###
+
+PUT {{URL}}/hifumin HTTP/1.1
+Content-Type: application/json
+
+{
+  "user": {
     "counter": {
       "poison": 500
     }
