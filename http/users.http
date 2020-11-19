@@ -70,6 +70,28 @@ Content-Type: application/json
 
 {
   "user": {
+    "dateRegistered": "1999-12-31T11:22:33.656Z"
+  }
+}
+
+###
+
+PUT {{URL}}/hifumin HTTP/1.1
+Content-Type: application/json
+
+{
+  "user": {
+    "_id": "111111111111222222222222"
+  }
+}
+
+###
+
+PUT {{URL}}/hifumin HTTP/1.1
+Content-Type: application/json
+
+{
+  "user": {
     "theme": "swamp"
   }
 }

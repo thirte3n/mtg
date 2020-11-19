@@ -9,6 +9,7 @@ const {
   checkUsernameExists,
   addUser,
   getUser,
+  validateInput,
   updateUser,
   deleteUser,
 } = require('../../../controllers/users');
@@ -44,6 +45,10 @@ usersRouter.param('username', async (req, res, next, username) => {
   }
 });
 
-usersRouter.route('/:username').get(getUser).put(updateUser).delete(deleteUser);
+usersRouter
+  .route('/:username')
+  .get(getUser)
+  .put(validateInput, updateUser)
+  .delete(deleteUser);
 
 module.exports = usersRouter;

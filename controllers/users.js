@@ -26,24 +26,22 @@ exports.getUsers = async (req, res, next) => {
 };
 
 exports.validateRequiredInput = (req, res, next) => {
-  req.newUsername = req.body.user.username;
-  req.newFirstName = req.body.user.firstName;
-  req.newLastName = req.body.user.lastName;
-  req.newPassword = req.body.user.password;
+  req.newUser = req.body.user;
+  const { username, firstName, lastName, password } = req.newUser;
 
   if (
-    !req.newUsername ||
-    !req.newFirstName ||
-    !req.newLastName ||
-    !req.newPassword ||
-    req.newUsername.length < 4 ||
-    req.newUsername.length > 20 ||
-    req.newFirstName.length < 1 ||
-    req.newFirstName.length > 20 ||
-    req.newLastName.length < 1 ||
-    req.newLastName.length > 20 ||
-    req.newPassword.length < 8 ||
-    req.newPassword.length > 30
+    !username ||
+    !firstName ||
+    !lastName ||
+    !password ||
+    username.length < 4 ||
+    username.length > 20 ||
+    firstName.length < 1 ||
+    firstName.length > 20 ||
+    lastName.length < 1 ||
+    lastName.length > 20 ||
+    password.length < 8 ||
+    password.length > 30
   ) {
     res.status(400).json({
       success: false,
@@ -57,7 +55,7 @@ exports.validateRequiredInput = (req, res, next) => {
 
 exports.checkUsernameExists = async (req, res, next) => {
   try {
-    const user = await User.findOne({ username: req.newUsername });
+    const user = await User.findOne({ username: req.newUser.username });
 
     if (user) {
       res.status(400).json({
@@ -84,16 +82,16 @@ exports.checkUsernameExists = async (req, res, next) => {
  */
 exports.addUser = async (req, res, next) => {
   bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(req.newPassword, salt, async (err, hash) => {
+    bcrypt.hash(req.newUser.password, salt, async (err, hash) => {
       if (err) throw err;
-      req.newPassword = hash;
+      req.newUser.password = hash;
 
       try {
         const newUser = await User.create({
-          username: req.newUsername,
-          firstName: req.newFirstName,
-          lastName: req.newLastName,
-          password: req.newPassword,
+          username: req.newUser.username,
+          firstName: req.newUser.firstName,
+          lastName: req.newUser.lastName,
+          password: req.newUser.password,
         });
 
         const { password, isAdmin, ...newFilteredUser } = newUser.toObject();
@@ -137,6 +135,29 @@ exports.getUser = async (req, res, next) => {
       user: req.filteredUser,
     },
   });
+};
+
+exports.validateInput = async (req, res, next) => {
+  req.newUser = req.body.user;
+  const {
+    username,
+    password,
+    isAdmin,
+    firstName,
+    lastName,
+    dateRegistered,
+    counter,
+  } = req.newUser;
+
+  if (dateRegistered) {
+    return res.status(400).json({
+      success: false,
+      status: 400,
+      error: 'Bad Request',
+    });
+  }
+
+  next();
 };
 
 exports.updateUser = async (req, res, next) => {

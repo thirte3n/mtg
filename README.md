@@ -462,13 +462,11 @@ TODO:
       Body:
       {
         "user": {
-          "username": String, Minimium Length:  4, Maximum Length:  20, Optional,
-          "firstName": String, Minimium Length:  1, Maximum Length:  20, Optional,
-          "lastName": String, Minimium Length:  1, Maximum Length:  20, Optional,
-          "password": String, Minimum Length:  8, Maximum Length:  30, Optional
+          (see Database Properties)
         }
       }
       ```
+      (see [Database Properties](#database-properties))
     * Success Response:
       ```json
       Status: 200 OK
@@ -480,7 +478,7 @@ TODO:
       }
       ```
     * Error Response:
-      * Error: Any required payload is missing, username is already taken
+      * Error: Any payload has an invalid value, username is already taken, invalid payload property
         ```json
         Status: 400 Bad Request
         Body:

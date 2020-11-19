@@ -304,12 +304,9 @@ describe('/api/v1/users routes', () => {
   });
 
   describe('PUT /api/v1/users/:username', () => {
-    beforeEach((done) => {
-      User.create(fakeUsers);
-      done();
-    });
-
     it('should update the correct user with the given username', () => {
+      User.create(fakeUser);
+
       const newFirstName = {
         user: {
           firstName: 'Aoba',
@@ -317,30 +314,159 @@ describe('/api/v1/users routes', () => {
       };
 
       return request(server)
-        .put(`/api/v1/users/${fakeUsers[0].username}`)
+        .put(`/api/v1/users/${fakeUser.username}`)
         .send(newFirstName)
         .expect('Content-Type', /json/)
         .expect(200)
         .then((res) => {
           const { success, status, data } = res.body;
           const { username, firstName } = data.user;
-          console.log(data.user);
 
           expect(success).to.be.a('boolean').equal(true);
           expect(status).to.be.a('number').equal(200);
-          expect(username).to.be.a('string').equal(fakeUsers[0].username);
+          expect(username).to.be.a('string').equal(fakeUser.username);
           expect(firstName)
             .to.be.a('string')
             .equal(newFirstName.user.firstName);
         });
     });
 
-    it('should update the correct user and persists to the database');
-    it('should not change the other users in the databse');
-    it('should return a 404 errror if called with an invalid username');
-    it('should not change the database when called with an invalid username');
+    it('should return a 404 errror if called with an invalid username', () => {
+      User.create(fakeUser);
+
+      const newFirstName = {
+        user: {
+          firstName: 'Aoba',
+        },
+      };
+
+      return request(server)
+        .put(`/api/v1/users/${fakeUser.username}a`)
+        .send(newFirstName)
+        .expect(404)
+        .then((res) => {
+          const { success, status, error } = res.body;
+
+          expect(success).to.be.a('boolean').equal(false);
+          expect(status).to.be.a('number').equal(404);
+          expect(error).to.be.a('string').equal('User does not exist');
+        });
+    });
+
+    it('should not be able to change dateRegistered property', () => {
+      User.create(fakeUser);
+
+      const newDate = {
+        user: {
+          dateRegistered: '1999-12-31T11:22:33.656Z',
+        },
+      };
+
+      return request(server)
+        .put(`/api/v1/users/${fakeUser.username}`)
+        .send(newDate)
+        .expect(400)
+        .then((res) => {
+          const { success, status, error } = res.body;
+
+          expect(success).to.be.a('boolean').equal(false);
+          expect(status).to.be.a('number').equal(400);
+          expect(error).to.be.a('string').equal('Bad Request');
+        });
+    });
+
+    it('should not be able to change _id property', () => {
+      User.create(fakeUser);
+
+      const newId = {
+        user: {
+          _id: '111111111111222222222222',
+        },
+      };
+
+      return request(server)
+        .put(`/api/v1/users/${fakeUser.username}`)
+        .send(newId)
+        .expect(500)
+        .then((res) => {
+          const { success, status, error } = res.body;
+
+          expect(success).to.be.a('boolean').equal(false);
+          expect(status).to.be.a('number').equal(500);
+          expect(error.codeName).to.be.a('string').equal('ImmutableField');
+          expect(error.name).to.be.a('string').equal('MongoError');
+        });
+    });
+
     it('should not update the user when called with an invalid body');
-    it('should not be able to change dateRegistered and _id properties');
+
+    describe('PUT /api/v1/users/:username after a successful PUT request', () => {
+      const newFirstName = {
+        user: {
+          firstName: 'Aoba',
+        },
+      };
+
+      beforeEach(() => {
+        User.create(fakeUsers);
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUsers[2].username}`)
+          .send(newFirstName)
+          .expect(200);
+      });
+
+      it('should update the correct user and persists to the database', () => {
+        return User.findOne({ username: fakeUsers[2].username }).then(
+          (user) => {
+            expect(user.username)
+              .to.be.a('string')
+              .equal(fakeUsers[2].username);
+            expect(user.firstName)
+              .to.be.a('string')
+              .equal(newFirstName.user.firstName);
+          },
+        );
+      });
+
+      it('should not change the other users in the databse', () => {
+        return User.find({}).then((users) => {
+          expect(users).to.be.an('array').to.have.lengthOf(3);
+          expect(users[0].firstName)
+            .to.be.a('string')
+            .equal(fakeUsers[0].firstName);
+          expect(users[1].firstName)
+            .to.be.a('string')
+            .equal(fakeUsers[1].firstName);
+        });
+      });
+    });
+
+    describe('PUT /api/v1/users/:username after an unsuccessful PUT request to an invalid username', () => {
+      beforeEach(() => {
+        User.create(fakeUsers);
+
+        const newFirstName = {
+          user: {
+            firstName: 'Aoba',
+          },
+        };
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUsers[2].username}x`)
+          .send(newFirstName)
+          .expect(404);
+      });
+
+      it('should not change the database when called with an invalid username', () => {
+        return User.find({}).then((users) => {
+          users.forEach((user, i) => {
+            expect(user.firstName).to.equal(fakeUsers[i].firstName);
+          });
+        });
+      });
+    });
+
     it(
       'should only be able to change admin priveleges by another user with admin priveleges',
     );
