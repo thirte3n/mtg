@@ -27,21 +27,12 @@ exports.getUsers = async (req, res, next) => {
 
 exports.validateRequiredInput = (req, res, next) => {
   req.newUser = req.body.user;
-  const { username, firstName, lastName, password } = req.newUser;
 
   if (
-    !username ||
-    !firstName ||
-    !lastName ||
-    !password ||
-    username.length < 4 ||
-    username.length > 20 ||
-    firstName.length < 1 ||
-    firstName.length > 20 ||
-    lastName.length < 1 ||
-    lastName.length > 20 ||
-    password.length < 8 ||
-    password.length > 30
+    !req.newUser.username ||
+    !req.newUser.firstName ||
+    !req.newUser.lastName ||
+    !req.newUser.password
   ) {
     res.status(400).json({
       success: false,
@@ -51,6 +42,68 @@ exports.validateRequiredInput = (req, res, next) => {
   } else {
     next();
   }
+};
+
+exports.validateInput = async (req, res, next) => {
+  req.newUser = req.body.user;
+  const {
+    username,
+    password,
+    isAdmin,
+    firstName,
+    lastName,
+    dateRegistered,
+    counter,
+  } = req.newUser;
+
+  if (dateRegistered) {
+    return res.status(400).json({
+      success: false,
+      status: 400,
+      error: 'Bad Request',
+    });
+  }
+
+  if (username) {
+    if (username.length < 4 || username.length > 20) {
+      return res.status(400).json({
+        success: false,
+        status: 400,
+        error: 'Bad Request',
+      });
+    }
+  }
+
+  if (password) {
+    if (password.length < 8 || password.length > 30) {
+      return res.status(400).json({
+        success: false,
+        status: 400,
+        error: 'Bad Request',
+      });
+    }
+  }
+
+  if (firstName) {
+    if (firstName.length < 1 || firstName.length > 20) {
+      return res.status(400).json({
+        success: false,
+        status: 400,
+        error: 'Bad Request',
+      });
+    }
+  }
+
+  if (lastName) {
+    if (lastName.length < 1 || lastName.length > 20) {
+      return res.status(400).json({
+        success: false,
+        status: 400,
+        error: 'Bad Request',
+      });
+    }
+  }
+  next();
 };
 
 exports.checkUsernameExists = async (req, res, next) => {
@@ -135,29 +188,6 @@ exports.getUser = async (req, res, next) => {
       user: req.filteredUser,
     },
   });
-};
-
-exports.validateInput = async (req, res, next) => {
-  req.newUser = req.body.user;
-  const {
-    username,
-    password,
-    isAdmin,
-    firstName,
-    lastName,
-    dateRegistered,
-    counter,
-  } = req.newUser;
-
-  if (dateRegistered) {
-    return res.status(400).json({
-      success: false,
-      status: 400,
-      error: 'Bad Request',
-    });
-  }
-
-  next();
 };
 
 exports.updateUser = async (req, res, next) => {

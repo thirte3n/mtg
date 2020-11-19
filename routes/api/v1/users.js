@@ -18,7 +18,7 @@ const e = require('express');
 usersRouter
   .route('/')
   .get(getUsers)
-  .post(validateRequiredInput, checkUsernameExists, addUser);
+  .post(validateRequiredInput, validateInput, checkUsernameExists, addUser);
 
 usersRouter.param('username', async (req, res, next, username) => {
   try {
