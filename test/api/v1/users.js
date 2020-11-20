@@ -375,30 +375,332 @@ describe('/api/v1/users routes', () => {
         });
     });
 
-    it('should not be able to change _id property', () => {
-      User.create(fakeUser);
+    describe('PUT /api/v1/users/:username - invalid payloads', () => {
+      beforeEach((done) => {
+        User.create(fakeUser);
+        done();
+      });
 
-      const newId = {
-        user: {
-          _id: '111111111111222222222222',
+      const invalidPayloads = {
+        shortUsername: 'Kou',
+        longName: 'AobaHifumiKouAhagonNe',
+        shortPassword: 'asdf123',
+        longPassword: 'asdfghjkl;1234567890asdfghjkl;1',
+        nonBooleanIsAdmin: 'true',
+        emptyName: '',
+        invalidTheme: 'water',
+        nonNumberRoomId: '20',
+        incompleteCounter: {
+          life: 1,
+          poison: 2,
+          land: {
+            plains: 3,
+            island: 4,
+            swamp: 5,
+            mountain: 6,
+            forest: '7',
+          },
         },
       };
 
-      return request(server)
-        .put(`/api/v1/users/${fakeUser.username}`)
-        .send(newId)
-        .expect(500)
-        .then((res) => {
-          const { success, status, error } = res.body;
+      it('should not accept an empty payload', () => {
+        const emptyUser = {
+          user: {},
+        };
 
-          expect(success).to.be.a('boolean').equal(false);
-          expect(status).to.be.a('number').equal(500);
-          expect(error.codeName).to.be.a('string').equal('ImmutableField');
-          expect(error.name).to.be.a('string').equal('MongoError');
-        });
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(emptyUser)
+          .expect(400)
+          .then((res) => {
+            const { success, status, error } = res.body;
+
+            expect(success).to.be.a('boolean').equal(false);
+            expect(status).to.be.a('number').equal(400);
+            expect(error).to.be.a('string').equal('Bad Request');
+          });
+      });
+
+      it('should not be able to change _id property', () => {
+        const newId = {
+          user: {
+            _id: '111111111111222222222222',
+          },
+        };
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(newId)
+          .expect(400)
+          .then((res) => {
+            const { success, status, error } = res.body;
+
+            expect(success).to.be.a('boolean').equal(false);
+            expect(status).to.be.a('number').equal(400);
+            expect(error).to.be.a('string').equal('Bad Request');
+          });
+      });
+
+      it('should not accept a username with length less than 4', () => {
+        const invalidShortUsername = {
+          user: {
+            username: invalidPayloads.shortUsername,
+          },
+        };
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(invalidShortUsername)
+          .expect(400)
+          .then((res) => {
+            const { success, status, error } = res.body;
+
+            expect(success).to.be.a('boolean').equal(false);
+            expect(status).to.be.a('number').equal(400);
+            expect(error).to.be.a('string').equal('Bad Request');
+          });
+      });
+
+      it('should not accept a username with length more than 20', () => {
+        const invalidLongUsername = {
+          user: {
+            username: invalidPayloads.longName,
+          },
+        };
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(invalidLongUsername)
+          .expect(400)
+          .then((res) => {
+            const { success, status, error } = res.body;
+
+            expect(success).to.be.a('boolean').equal(false);
+            expect(status).to.be.a('number').equal(400);
+            expect(error).to.be.a('string').equal('Bad Request');
+          });
+      });
+
+      it('should not accept a password with length less than 8', () => {
+        const invalidShortPassword = {
+          user: {
+            password: invalidPayloads.shortPassword,
+          },
+        };
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(invalidShortPassword)
+          .expect(400)
+          .then((res) => {
+            const { success, status, error } = res.body;
+
+            expect(success).to.be.a('boolean').equal(false);
+            expect(status).to.be.a('number').equal(400);
+            expect(error).to.be.a('string').equal('Bad Request');
+          });
+      });
+
+      it('should not accept a password with length more than 30', () => {
+        const invalidLongPassword = {
+          user: {
+            password: invalidPayloads.longPassword,
+          },
+        };
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(invalidLongPassword)
+          .expect(400)
+          .then((res) => {
+            const { success, status, error } = res.body;
+
+            expect(success).to.be.a('boolean').equal(false);
+            expect(status).to.be.a('number').equal(400);
+            expect(error).to.be.a('string').equal('Bad Request');
+          });
+      });
+
+      it('should not accept an isAdmin that is not a Boolean value', () => {
+        const invalidIsAdmin = {
+          user: {
+            isAdmin: invalidPayloads.nonBooleanIsAdmin,
+          },
+        };
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(invalidIsAdmin)
+          .expect(400)
+          .then((res) => {
+            const { success, status, error } = res.body;
+
+            expect(success).to.be.a('boolean').equal(false);
+            expect(status).to.be.a('number').equal(400);
+            expect(error).to.be.a('string').equal('Bad Request');
+          });
+      });
+
+      it('should not accept a firstName with length of 0', () => {
+        const invalidBlankFirstName = {
+          user: {
+            firstName: invalidPayloads.emptyName,
+          },
+        };
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(invalidBlankFirstName)
+          .expect(400)
+          .then((res) => {
+            const { success, status, error } = res.body;
+
+            expect(success).to.be.a('boolean').equal(false);
+            expect(status).to.be.a('number').equal(400);
+            expect(error).to.be.a('string').equal('Bad Request');
+          });
+      });
+
+      it('should not accept a firstName with length more than 20', () => {
+        const invalidLongFirstName = {
+          user: {
+            firstName: invalidPayloads.longName,
+          },
+        };
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(invalidLongFirstName)
+          .expect(400)
+          .then((res) => {
+            const { success, status, error } = res.body;
+
+            expect(success).to.be.a('boolean').equal(false);
+            expect(status).to.be.a('number').equal(400);
+            expect(error).to.be.a('string').equal('Bad Request');
+          });
+      });
+
+      it('should not accept a lastName with length of 0', () => {
+        const invalidBlankLastName = {
+          user: {
+            lastName: invalidPayloads.emptyName,
+          },
+        };
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(invalidBlankLastName)
+          .expect(400)
+          .then((res) => {
+            const { success, status, error } = res.body;
+
+            expect(success).to.be.a('boolean').equal(false);
+            expect(status).to.be.a('number').equal(400);
+            expect(error).to.be.a('string').equal('Bad Request');
+          });
+      });
+
+      it('should not accept a lastName with length more than 20', () => {
+        const invalidLongLastName = {
+          user: {
+            lastName: invalidPayloads.longName,
+          },
+        };
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(invalidLongLastName)
+          .expect(400)
+          .then((res) => {
+            const { success, status, error } = res.body;
+
+            expect(success).to.be.a('boolean').equal(false);
+            expect(status).to.be.a('number').equal(400);
+            expect(error).to.be.a('string').equal('Bad Request');
+          });
+      });
+
+      it('should not accept an invalid theme', () => {
+        const invalidTheme = {
+          user: {
+            theme: invalidPayloads.invalidTheme,
+          },
+        };
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(invalidTheme)
+          .expect(400)
+          .then((res) => {
+            const { success, status, error } = res.body;
+
+            expect(success).to.be.a('boolean').equal(false);
+            expect(status).to.be.a('number').equal(400);
+            expect(error).to.be.a('string').equal('Bad Request');
+          });
+      });
+
+      it('should not accept a roomId that is not a Number', () => {
+        const invalidRoomId = {
+          user: {
+            userRooms: [{ roomId: invalidPayloads.nonNumberRoomId }],
+          },
+        };
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(invalidRoomId)
+          .expect(400)
+          .then((res) => {
+            const { success, status, error } = res.body;
+
+            expect(success).to.be.a('boolean').equal(false);
+            expect(status).to.be.a('number').equal(400);
+            expect(error).to.be.a('string').equal('Bad Request');
+          });
+      });
+
+      it('should not accept an incomplete counter object', () => {
+        const invalidCounter = {
+          user: {
+            counter: invalidPayloads.incompleteCounter,
+          },
+        };
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(invalidCounter)
+          .expect(400)
+          .then((res) => {
+            const { success, status, error } = res.body;
+
+            expect(success).to.be.a('boolean').equal(false);
+            expect(status).to.be.a('number').equal(400);
+            expect(error).to.be.a('string').equal('Bad Request');
+          });
+      });
+
+      it('should not accept invalid properties', () => {
+        const invalidProperty = {
+          user: {
+            foo: 'bar',
+          },
+        };
+
+        return request(server)
+          .put(`/api/v1/users/${fakeUser.username}`)
+          .send(invalidProperty)
+          .expect(400)
+          .then((res) => {
+            const { success, status, error } = res.body;
+
+            expect(success).to.be.a('boolean').equal(false);
+            expect(status).to.be.a('number').equal(400);
+            expect(error).to.be.a('string').equal('Bad Request');
+          });
+      });
     });
-
-    it('should not update the user when called with an invalid body');
 
     describe('PUT /api/v1/users/:username after a successful PUT request', () => {
       const newFirstName = {

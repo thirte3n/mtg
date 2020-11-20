@@ -52,7 +52,7 @@ if (process.env.NODE_ENV === 'production') {
       }),
     }),
   );
-} else {
+} else if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 

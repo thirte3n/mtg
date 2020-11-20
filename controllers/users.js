@@ -45,6 +45,15 @@ exports.checkRequiredInput = (req, res, next) => {
 };
 
 exports.validateInput = async (req, res, next) => {
+  if (!req.body || !req.body.user) {
+    console.table(req.body);
+    return res.status(400).json({
+      success: false,
+      status: 400,
+      error: 'Bad Request',
+    });
+  }
+
   req.newUser = req.body.user;
 
   const {
@@ -59,7 +68,36 @@ exports.validateInput = async (req, res, next) => {
     userRooms,
   } = req.newUser;
 
+  const validKeys = [
+    'username',
+    'password',
+    'isAdmin',
+    'firstName',
+    'lastName',
+    'dateRegistered',
+    'counter',
+    'theme',
+    'userRooms',
+  ];
+
+  if (Object.keys(req.newUser).length === 0) {
+    return res.status(400).json({
+      success: false,
+      status: 400,
+      error: 'Bad Request',
+    });
+  }
+
   if (dateRegistered) {
+    return res.status(400).json({
+      success: false,
+      status: 400,
+      error: 'Bad Request',
+    });
+  }
+
+  // Check if all the properties in req.body.user is a valid property
+  if (!Object.keys(req.body.user).every((key) => validKeys.includes(key))) {
     return res.status(400).json({
       success: false,
       status: 400,
@@ -87,8 +125,16 @@ exports.validateInput = async (req, res, next) => {
     }
   }
 
+  if (firstName?.length === 0) {
+    return res.status(400).json({
+      success: false,
+      status: 400,
+      error: 'Bad Request',
+    });
+  }
+
   if (firstName) {
-    if (firstName.length < 1 || firstName.length > 20) {
+    if (firstName.length > 20) {
       return res.status(400).json({
         success: false,
         status: 400,
@@ -97,8 +143,16 @@ exports.validateInput = async (req, res, next) => {
     }
   }
 
+  if (lastName?.length === 0) {
+    return res.status(400).json({
+      success: false,
+      status: 400,
+      error: 'Bad Request',
+    });
+  }
+
   if (lastName) {
-    if (lastName.length < 1 || lastName.length > 20) {
+    if (lastName.length > 20) {
       return res.status(400).json({
         success: false,
         status: 400,
@@ -108,7 +162,7 @@ exports.validateInput = async (req, res, next) => {
   }
 
   if (isAdmin) {
-    if (typeof isAdmin !== Boolean) {
+    if (typeof isAdmin !== 'boolean') {
       return res.status(400).json({
         success: false,
         status: 400,
@@ -119,13 +173,13 @@ exports.validateInput = async (req, res, next) => {
 
   if (counter) {
     if (
-      typeof counter.life !== Number ||
-      typeof counter.poison !== Number ||
-      typeof counter.land.plains !== Number ||
-      typeof counter.land.island !== Number ||
-      typeof counter.land.swamp !== Number ||
-      typeof counter.land.mountain !== Number ||
-      typeof counter.land.forest !== Number
+      typeof counter.life !== 'number' ||
+      typeof counter.poison !== 'number' ||
+      typeof counter.land.plains !== 'number' ||
+      typeof counter.land.island !== 'number' ||
+      typeof counter.land.swamp !== 'number' ||
+      typeof counter.land.mountain !== 'number' ||
+      typeof counter.land.forest !== 'number'
     ) {
       return res.status(400).json({
         success: false,
@@ -146,7 +200,7 @@ exports.validateInput = async (req, res, next) => {
   }
 
   if (userRooms && userRooms.length > 0) {
-    if (userRooms.every((roomId) => typeof roomId === Number)) {
+    if (userRooms.every((room) => typeof room.roomId !== 'number')) {
       return res.status(400).json({
         success: false,
         status: 400,
