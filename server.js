@@ -3,6 +3,8 @@ const app = express();
 const path = require('path');
 require('dotenv').config();
 const mongoose = require('mongoose');
+const morgan = require('morgan');
+const fs = require('fs');
 
 module.exports = app;
 
@@ -32,6 +34,27 @@ mongoose
 // Body Parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Morgan logging
+if (process.env.NODE_ENV === 'production') {
+  // log only 4xx and 5xx responses to console
+  app.use(
+    morgan('dev', {
+      skip: (req, res) => res.statusCode < 400,
+    }),
+  );
+
+  // log all requests to access.log
+  app.use(
+    morgan('common', {
+      stream: fs.createWriteStream(path.join(__dirname, 'logs', 'access.log'), {
+        flags: 'a',
+      }),
+    }),
+  );
+} else {
+  app.use(morgan('dev'));
+}
 
 // Routes
 const apiRouter = require('./routes/api/v1/api');
