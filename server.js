@@ -29,7 +29,10 @@ mongoose
       }`,
     ),
   )
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    console.log(`Error: ${err.message}`);
+    process.exit(1);
+  });
 
 // Body Parser
 app.use(express.json());
