@@ -4,10 +4,10 @@ const usersRouter = express.Router();
 const User = require('../../../models/User');
 
 const {
-  getUsers,
   checkRequiredInput,
   validateInput,
   checkUsernameExists,
+  getUsers,
   addUser,
   getUser,
   updateUser,

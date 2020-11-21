@@ -1,30 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
-/**
- * @route   GET /api/v1/users
- * @desc    Get list of all users
- * @access  Public
- */
-exports.getUsers = async (req, res, next) => {
-  try {
-    const users = await User.find({}).select('-password -isAdmin');
-
-    return res.status(200).json({
-      success: true,
-      status: 200,
-      count: users.length,
-      data: users,
-    });
-  } catch {
-    return res.status(500).json({
-      success: false,
-      status: 500,
-      error: 'Server Error',
-    });
-  }
-};
-
 exports.checkRequiredInput = (req, res, next) => {
   req.newUser = req.body.user;
 
@@ -235,7 +211,31 @@ exports.checkUsernameExists = async (req, res, next) => {
 };
 
 /**
- * @route   POST /api/users
+ * @route   GET /api/v1/users
+ * @desc    Get list of all users
+ * @access  Public
+ */
+exports.getUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({}).select('-password -isAdmin');
+
+    return res.status(200).json({
+      success: true,
+      status: 200,
+      count: users.length,
+      data: users,
+    });
+  } catch {
+    return res.status(500).json({
+      success: false,
+      status: 500,
+      error: 'Server Error',
+    });
+  }
+};
+
+/**
+ * @route   POST /api/v1/users
  * @desc    Add user
  * @access  Public
  */
@@ -286,6 +286,11 @@ exports.addUser = async (req, res, next) => {
   });
 };
 
+/**
+ * @route   GET /api/v1/users/:username
+ * @desc    Get details of a single user
+ * @access  Public
+ */
 exports.getUser = async (req, res, next) => {
   res.status(200).json({
     success: true,
@@ -296,6 +301,11 @@ exports.getUser = async (req, res, next) => {
   });
 };
 
+/**
+ * @route   PUT /api/v1/users/:username
+ * @desc    Update user information
+ * @access  Private - owner or admin
+ */
 exports.updateUser = async (req, res, next) => {
   // HACK: You can't update only a select number of properties inside `counter`. In doing so, you will be able to update those property but will revert all the other properties inside `counter` to their default values.
   // If you're going to change any value inside `counter`, you must send the complete `counter` object with all its properties and values.
@@ -323,6 +333,11 @@ exports.updateUser = async (req, res, next) => {
   }
 };
 
+/**
+ * @route   DELETE /api/v1/users/:username
+ * @desc    Delete a user
+ * @access  Private - owner or admin
+ */
 exports.deleteUser = async (req, res, next) => {
   try {
     await User.findOneAndRemove({ username: req.user.username });

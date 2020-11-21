@@ -454,7 +454,7 @@ TODO:
 
   * Method: PUT
     * Description: Update user information
-    * Access: Private
+    * Access: Private - owner or admin
     * URL Params: required `userId=[String]`
     * Data Params: required at least 1 change
       ```json
@@ -528,7 +528,7 @@ TODO:
 
   * Method: DELETE
     * Description: Delete a user
-    * Access: Private
+    * Access: Private - owner or admin
     * URL Params: required `userId=[String]`
     * Data Params: required `x-auth-token: token`
     * Success Response:
