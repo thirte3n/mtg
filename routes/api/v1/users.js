@@ -4,22 +4,30 @@ const usersRouter = express.Router();
 const User = require('../../../models/User');
 
 const {
-  checkRequiredInput,
+  checkCompletePayload,
+  checkEmptyPayload,
   validateInput,
-  checkUsernameExists,
+  checkUsernameAvailability,
   getUsers,
   addUser,
   getUser,
   updateUser,
   deleteUser,
 } = require('../../../controllers/users');
-const e = require('express');
 
+// @route /api/v1/users
 usersRouter
   .route('/')
   .get(getUsers)
-  .post(checkRequiredInput, validateInput, checkUsernameExists, addUser);
+  .post(
+    checkCompletePayload,
+    checkEmptyPayload,
+    validateInput,
+    checkUsernameAvailability,
+    addUser,
+  );
 
+// @route /api/v1/users/:username
 usersRouter.param('username', async (req, res, next, username) => {
   try {
     const user = await User.findOne({ username });
@@ -45,10 +53,11 @@ usersRouter.param('username', async (req, res, next, username) => {
   }
 });
 
+// @route /api/v1/users/:username
 usersRouter
   .route('/:username')
   .get(getUser)
-  .put(validateInput, updateUser)
+  .put(checkEmptyPayload, validateInput, updateUser)
   .delete(deleteUser);
 
 module.exports = usersRouter;

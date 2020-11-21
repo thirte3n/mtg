@@ -155,13 +155,13 @@ This project is built with:
 
 * Server
   * Express
-  <!-- * bcryptjs -->
+  * bcryptjs
   <!-- * *colors -->
   <!-- * *cors -->
   * dotenv
-  <!-- * jsonwebtoken -->
-  <!-- * Mongoose -->
-  <!-- * Morgan -->
+  * jsonwebtoken
+  * Mongoose
+  * Morgan
   <!-- * socket.io -->
   * Dev Dependencies
     * concurrently
@@ -456,7 +456,7 @@ TODO:
     * Description: Update user information
     * Access: Private - owner or admin
     * URL Params: required `userId=[String]`
-    * Data Params: required at least 1 change
+    * Data Params: required at least 1 valid change
       ```json
       x-auth-token: JWT token
       Body:
@@ -478,7 +478,7 @@ TODO:
       }
       ```
     * Error Response:
-      * Error: Any payload has an invalid value, username is already taken, invalid payload property
+      * Error: Any payload has an invalid value, username is already taken, invalid property in payload
         ```json
         Status: 400 Bad Request
         Body:
@@ -567,10 +567,10 @@ TODO:
       x-auth-token: token
       ```
     * Notes: none
-<!--
+
 * /api/v1/auth
   * Method: POST
-    * Description: Authenticate/login user and returns JWT token
+    * Description: Authenticate user and returns JWT token
     * Access: Public
     * URL Params: none
     * Data Params: required
@@ -589,18 +589,34 @@ TODO:
       {
         "success": true,
         "status": 200,
-        "token": token,
         "data": {
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYjhlODM3ZjExZmQxMzVjNDA4MjI2NSIsInVzZXJuYW1lIjoiaGlmdW1pbiIsImlhdCI6MTYwNTk1NjA5NCwiZXhwIjoxNjA1OTU5Njk0fQ.1dztHCBEfbrnJwhe3YHIKDNoMQ5UCOQ1CE-YdyyHNoU",
           "user": {
-            "username": "chosenone",
-            "firstName": "Harry",
-            "lastName": "Potter"
+            "counter": {
+              "land": {
+                "plains": 0,
+                "island": 0,
+                "swamp": 0,
+                "mountain": 0,
+                "forest": 0
+              },
+              "life": 20,
+              "poison": 0
+            },
+            "theme": "plains",
+            "_id": "5fb8e837f11fd135c4082265",
+            "username": "hifumin",
+            "firstName": "Hifumi",
+            "lastName": "Takimoto",
+            "dateRegistered": "2020-11-21T10:13:11.242Z",
+            "userRooms": [],
+            "__v": 0
           }
         }
       }
       ```
     * Error Response:
-      * Error: Incomplete data submitted, invalid credentials, user does not exist
+      * Error: Incomplete data submitted, invalid credentials, user does not exist, invalid property in payload
         ```json
         Status: 400 Bad Request
         Body:
@@ -618,13 +634,13 @@ TODO:
       Body:
       {
         "user": {
-          "uosername": "chosenone",
-          "password": "ginnyweasley"
+          "username": "hifumin",
+          "password": "hedgehog"
         }
       }
       ```
     * Notes:
-
+<!--
 * /api/v1/auth/user
   * Method: GET
     * Description: Get all user data except for password

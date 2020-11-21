@@ -1,7 +1,8 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
+const checkValidProperties = require('../utils/checkValidProperty');
 
-exports.checkRequiredInput = (req, res, next) => {
+exports.checkCompletePayload = (req, res, next) => {
   req.newUser = req.body.user;
 
   if (
@@ -10,19 +11,6 @@ exports.checkRequiredInput = (req, res, next) => {
     !req.newUser.lastName ||
     !req.newUser.password
   ) {
-    res.status(400).json({
-      success: false,
-      status: 400,
-      error: 'Bad Request',
-    });
-  } else {
-    next();
-  }
-};
-
-exports.validateInput = async (req, res, next) => {
-  if (!req.body || !req.body.user) {
-    console.table(req.body);
     return res.status(400).json({
       success: false,
       status: 400,
@@ -30,6 +18,22 @@ exports.validateInput = async (req, res, next) => {
     });
   }
 
+  next();
+};
+
+exports.checkEmptyPayload = (req, res, next) => {
+  if (!req.body || !req.body.user) {
+    return res.status(400).json({
+      success: false,
+      status: 400,
+      error: 'Bad Request',
+    });
+  }
+
+  next();
+};
+
+exports.validateInput = async (req, res, next) => {
   req.newUser = req.body.user;
 
   const {
@@ -44,7 +48,7 @@ exports.validateInput = async (req, res, next) => {
     userRooms,
   } = req.newUser;
 
-  const validKeys = [
+  const validProperties = [
     'username',
     'password',
     'isAdmin',
@@ -72,8 +76,7 @@ exports.validateInput = async (req, res, next) => {
     });
   }
 
-  // Check if all the properties in req.body.user is a valid property
-  if (!Object.keys(req.body.user).every((key) => validKeys.includes(key))) {
+  if (!checkValidProperties(req.body.user, validProperties)) {
     return res.status(400).json({
       success: false,
       status: 400,
@@ -188,19 +191,19 @@ exports.validateInput = async (req, res, next) => {
   next();
 };
 
-exports.checkUsernameExists = async (req, res, next) => {
+exports.checkUsernameAvailability = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.newUser.username });
 
     if (user) {
-      res.status(400).json({
+      return res.status(400).json({
         success: false,
         status: 400,
         error: 'Username is already taken',
       });
-    } else {
-      next();
     }
+
+    next();
   } catch (err) {
     res.status(500).json({
       success: false,
