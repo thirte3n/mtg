@@ -30,11 +30,11 @@ This web app will let players join up with other players in an in-app room where
 
 Portrait view                                                                               | Landscape view
 --------------------------------------------------------------------------------------------|---------------
-![](images/readme/capture-portrait.gif)                                                     | ![](images/readme/capture-landscape.gif)
-<!-- **Life/poison counter** ![](images/readme/screenshot-single-counter-portrait.png)           | **Life/poison counter** ![](images/readme/screenshot-single-counter-landscape.png) -->
-<!-- **Land counter** ![](images/readme/screenshot-land-counter-portrait.png)                    | **Land counter** ![](images/readme/screenshot-land-counter-landscape.png) -->
-<!-- **Dice roller** ![](images/readme/screenshot-dice-portrait.png)                             | **Dice roller** ![](images/readme/screenshot-dice-landscape.png) -->
-<!-- **Dice roller - custom number modal** ![](images/readme/screenshot-dice-modal-portrait.png) | **Dice roller - custom number modal** ![](images/readme/screenshot-dice-modal-landscape.png) -->
+![](.github/readme-images/capture-portrait.gif)                                                     | ![](.github/readme-images/capture-landscape.gif)
+<!-- **Life/poison counter** ![](.github/readme-images/screenshot-single-counter-portrait.png)           | **Life/poison counter** ![](.github/readme-images/screenshot-single-counter-landscape.png) -->
+<!-- **Land counter** ![](.github/readme-images/screenshot-land-counter-portrait.png)                    | **Land counter** ![](.github/readme-images/screenshot-land-counter-landscape.png) -->
+<!-- **Dice roller** ![](.github/readme-images/screenshot-dice-portrait.png)                             | **Dice roller** ![](.github/readme-images/screenshot-dice-landscape.png) -->
+<!-- **Dice roller - custom number modal** ![](.github/readme-images/screenshot-dice-modal-portrait.png) | **Dice roller - custom number modal** ![](.github/readme-images/screenshot-dice-modal-landscape.png) -->
 
 ### Demo
 
@@ -125,6 +125,11 @@ $ npm run server
 To run the tests, open the root project directory in your terminal. Run `npm install` to install all necessary dependencies then run `npm test` to run automated tests.
 
 To run manual tests for the api, the `/http/*.http` files can be run using the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension for Visual Studio Code.
+
+For running specific test suites, run:
+* `npm run test:api` to run the test suite for all of the api endpoints
+* `npm run test:users` to run the test suite for the users api endpoints
+* `npm run test:auth` to run the test suite for the auth api endpoint
 
 ### Deployment
 
