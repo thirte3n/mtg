@@ -9,6 +9,8 @@ const bcrypt = require('bcryptjs');
 
 const server = require('../../../server');
 
+const expectCorrectErrorResponse = require('../../../utils/expectCorrectErrorResponse');
+
 describe('/api/v1/users routes', () => {
   // TODO: Maybe seed fakeUsers before each test?
   beforeEach((done) => {
@@ -90,13 +92,6 @@ describe('/api/v1/users routes', () => {
   });
 
   describe('POST /api/v1/users', () => {
-    const expectCorrectErrorResponse = (res) => {
-      expect(res.body.success).to.be.a('boolean').equal(false);
-      expect(res.body.status).to.be.a('number').equal(400);
-      expect(res.body.error).to.be.a('string').equal('Bad Request');
-      return res;
-    };
-
     it('should not POST a user with no username', () => {
       const { username, ...userWithoutUsername } = fakeUser;
 

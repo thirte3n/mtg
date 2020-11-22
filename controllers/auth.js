@@ -27,6 +27,8 @@ exports.validateInput = async (req, res, next) => {
       error: 'Bad Request',
     });
   }
+
+  next();
 };
 
 exports.checkUsernameExists = async (req, res, next) => {
@@ -63,7 +65,7 @@ exports.validatePassword = (req, res, next) => {
       return res.status(400).json({
         success: false,
         status: 400,
-        error: 'Invalid credentials',
+        error: 'Bad Request',
       });
     }
 
