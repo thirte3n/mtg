@@ -1,0 +1,31 @@
+@hostname = http://localhost
+@port = 5000
+@version = v1
+@endpoint = /auth
+@baseUrl = {{hostname}}:{{port}}/api/{{version}}
+@contentType = application/json
+
+###
+
+POST {{baseUrl}}/users HTTP/1.1
+Content-Type: application/json
+
+{
+  "user" : {
+    "username": "hifumin",
+    "firstName": "Hifumi",
+    "lastName": "Takimoto",
+    "password": "hedgehog"
+  }
+}
+
+###
+POST {{baseUrl}}/{{endpoint}}
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "hifumin",
+    "password": "hedgehog"
+  }
+}

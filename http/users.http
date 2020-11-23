@@ -1,14 +1,17 @@
-@root = http://localhost:5000/api/v1
+@hostname = http://localhost
+@port = 5000
+@version = v1
 @endpoint = /users
-@URL = {{root}}/{{endpoint}}
+@baseUrl = {{hostname}}:{{port}}/api/{{version}}
+@contentType = application/json
 
 ###
 
-GET {{URL}} HTTP/1.1
+GET {{baseUrl}}/{{endpoint}} HTTP/1.1
 
 ###
 
-POST {{URL}} HTTP/1.1
+POST {{baseUrl}}/{{endpoint}} HTTP/1.1
 Content-Type: application/json
 
 {
@@ -22,7 +25,7 @@ Content-Type: application/json
 
 ###
 
-POST {{URL}} HTTP/1.1
+POST {{baseUrl}}/{{endpoint}} HTTP/1.1
 Content-Type: application/json
 
 {
@@ -36,7 +39,7 @@ Content-Type: application/json
 
 ###
 
-POST {{URL}} HTTP/1.1
+POST {{baseUrl}}/{{endpoint}} HTTP/1.1
 Content-Type: application/json
 
 {
@@ -50,11 +53,11 @@ Content-Type: application/json
 
 ###
 
-GET {{URL}}/hifumin HTTP/1.1
+GET {{baseUrl}}/{{endpoint}}/hifumin HTTP/1.1
 
 ###
 
-PUT {{URL}}/hifumin HTTP/1.1
+PUT {{baseUrl}}/{{endpoint}}/hifumin HTTP/1.1
 Content-Type: application/json
 
 {
@@ -65,7 +68,9 @@ Content-Type: application/json
 
 ###
 
-PUT {{URL}}/hifumin HTTP/1.1
+# Invalid PUT request
+
+PUT {{baseUrl}}/{{endpoint}}/hifumin HTTP/1.1
 Content-Type: application/json
 
 {
@@ -76,7 +81,9 @@ Content-Type: application/json
 
 ###
 
-PUT {{URL}}/hifumin HTTP/1.1
+# Invalid PUT request
+
+PUT {{baseUrl}}/{{endpoint}}/hifumin HTTP/1.1
 Content-Type: application/json
 
 {
@@ -87,7 +94,7 @@ Content-Type: application/json
 
 ###
 
-PUT {{URL}}/hifumin HTTP/1.1
+PUT {{baseUrl}}/{{endpoint}}/hifumin HTTP/1.1
 Content-Type: application/json
 
 {
@@ -98,7 +105,7 @@ Content-Type: application/json
 
 ###
 
-PUT {{URL}}/hifumin HTTP/1.1
+PUT {{baseUrl}}/{{endpoint}}/hifumin HTTP/1.1
 Content-Type: application/json
 
 {
@@ -113,7 +120,9 @@ Content-Type: application/json
 
 ###
 
-PUT {{URL}}/hifumin HTTP/1.1
+# Bug - reverts other values in the counter object to their default values
+
+PUT {{baseUrl}}/{{endpoint}}/hifumin HTTP/1.1
 Content-Type: application/json
 
 {
@@ -126,7 +135,9 @@ Content-Type: application/json
 
 ###
 
-PUT {{URL}}/hifumin HTTP/1.1
+# Bug - reverts other values in the counter object to their default values
+
+PUT {{baseUrl}}/{{endpoint}}/hifumin HTTP/1.1
 Content-Type: application/json
 
 {
@@ -139,7 +150,9 @@ Content-Type: application/json
 
 ###
 
-PUT {{URL}}/hifumin HTTP/1.1
+# Bug - reverts other values in the counter object to their default values
+
+PUT {{baseUrl}}/{{endpoint}}/hifumin HTTP/1.1
 Content-Type: application/json
 
 {
@@ -154,7 +167,7 @@ Content-Type: application/json
 
 ###
 
-PUT {{URL}}/hifumin HTTP/1.1
+PUT {{baseUrl}}/{{endpoint}}/hifumin HTTP/1.1
 Content-Type: application/json
 
 {
@@ -174,7 +187,9 @@ Content-Type: application/json
 }
 ###
 
-PUT {{URL}}/hifumin HTTP/1.1
+# Bad Request - should send complete counter object
+
+PUT {{baseUrl}}/{{endpoint}}/hifumin HTTP/1.1
 Content-Type: application/json
 
 {
@@ -192,16 +207,4 @@ Content-Type: application/json
 
 ###
 
-DELETE {{URL}}/hifumin HTTP/1.1
-
-###
-
-POST {{root}}/auth
-Content-Type: application/json
-
-{
-  "user": {
-    "username": "hifumin",
-    "password": "hedgehog"
-  }
-}
+DELETE {{baseUrl}}/{{endpoint}}/hifumin HTTP/1.1
