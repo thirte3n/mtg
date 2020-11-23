@@ -141,6 +141,14 @@ exports.validateInput = async (req, res, next) => {
   }
 
   if (isAdmin) {
+    if (!req.user.isAdmin) {
+      return res.status(401).json({
+        success: false,
+        status: 401,
+        error: 'Unauthorized',
+      });
+    }
+
     if (typeof isAdmin !== 'boolean') {
       return res.status(400).json({
         success: false,

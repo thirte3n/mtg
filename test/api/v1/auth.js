@@ -105,7 +105,7 @@ describe('/api/v1/auth route', () => {
           expect(success).to.be.a('boolean').equal(true);
           expect(status).to.be.a('number').equal(200);
           expect(username).to.be.a('string').equal(fakeUser.username);
-          expect(token).to.be.a('string').to.have.lengthOf(199);
+          expect(token).to.be.a('string');
         });
     });
   });

@@ -122,7 +122,6 @@ exports.validateToken = (req, res, next) => {
 };
 
 exports.validateOwnershipOrAdminRights = (req, res, next) => {
-  console.table(req.user);
   if (req.user.username !== req.queriedUser.username && !req.user.isAdmin) {
     return res.status(401).json({
       success: false,
