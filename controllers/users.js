@@ -345,12 +345,12 @@ exports.deleteUser = async (req, res, next) => {
   try {
     await User.findOneAndRemove({ username: req.queriedUser.username });
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       status: 200,
     });
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       status: 500,
       error: err,

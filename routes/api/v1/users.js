@@ -15,7 +15,10 @@ const {
   deleteUser,
 } = require('../../../controllers/users');
 
-const { validateToken } = require('../../../controllers/auth');
+const {
+  validateToken,
+  validateOwnershipOrAdminRights,
+} = require('../../../controllers/auth');
 
 // @route /api/v1/users
 usersRouter
@@ -59,7 +62,14 @@ usersRouter.param('username', async (req, res, next, username) => {
 usersRouter
   .route('/:username')
   .get(getUser)
-  .put(checkEmptyPayload, validateInput, checkUsernameAvailability, updateUser)
-  .delete(deleteUser);
+  .put(
+    validateToken,
+    validateOwnershipOrAdminRights,
+    checkEmptyPayload,
+    validateInput,
+    checkUsernameAvailability,
+    updateUser,
+  )
+  .delete(validateToken, validateOwnershipOrAdminRights, deleteUser);
 
 module.exports = usersRouter;

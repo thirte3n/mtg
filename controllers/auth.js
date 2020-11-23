@@ -73,6 +73,7 @@ exports.validatePassword = (req, res, next) => {
       {
         id: req.user.id,
         username: req.user.username,
+        isAdmin: req.user.isAdmin,
       },
       process.env.JWT_KEY,
       { expiresIn: 3600 },
@@ -92,4 +93,43 @@ exports.validatePassword = (req, res, next) => {
       },
     );
   });
+};
+
+exports.validateToken = (req, res, next) => {
+  const token = req.header('x-auth-token');
+
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      status: 401,
+      error: 'Unauthorized',
+    });
+  }
+
+  jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({
+        success: false,
+        status: 401,
+        error: 'Unauthorized',
+      });
+    }
+
+    req.user = decoded;
+
+    next();
+  });
+};
+
+exports.validateOwnershipOrAdminRights = (req, res, next) => {
+  console.table(req.user);
+  if (req.user.username !== req.queriedUser.username && !req.user.isAdmin) {
+    return res.status(401).json({
+      success: false,
+      status: 401,
+      error: 'Unauthorized',
+    });
+  }
+
+  next();
 };
