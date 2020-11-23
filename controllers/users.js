@@ -299,7 +299,7 @@ exports.getUser = async (req, res, next) => {
     success: true,
     status: 200,
     data: {
-      user: req.filteredUser,
+      user: req.filteredQueriedUser,
     },
   });
 };
@@ -315,7 +315,7 @@ exports.updateUser = async (req, res, next) => {
   // HACK: The same problem also goes for the userRooms array property
   try {
     const updatedUser = await User.findOneAndUpdate(
-      { username: req.user.username },
+      { username: req.queriedUser.username },
       { ...req.body.user },
       { new: true, projection: '-password -isAdmin' },
     );
@@ -343,7 +343,7 @@ exports.updateUser = async (req, res, next) => {
  */
 exports.deleteUser = async (req, res, next) => {
   try {
-    await User.findOneAndRemove({ username: req.user.username });
+    await User.findOneAndRemove({ username: req.queriedUser.username });
 
     res.status(200).json({
       success: true,

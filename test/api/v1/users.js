@@ -370,6 +370,28 @@ describe('/api/v1/users routes', () => {
         });
     });
 
+    it('should not be able to change username with a username that is already taken', () => {
+      User.create(fakeUsers);
+
+      const unavailableUsername = {
+        user: {
+          username: fakeUsers[1].username,
+        },
+      };
+
+      return request(server)
+        .put(`/api/v1/users/${fakeUsers[0].username}`)
+        .send(unavailableUsername)
+        .expect(400)
+        .then((res) => {
+          const { success, status, error } = res.body;
+
+          expect(success).to.be.a('boolean').equal(false);
+          expect(status).to.be.a('number').equal(400);
+          expect(error).to.be.a('string').equal('Username is already taken');
+        });
+    });
+
     describe('PUT /api/v1/users/:username - invalid payloads', () => {
       beforeEach((done) => {
         User.create(fakeUser);

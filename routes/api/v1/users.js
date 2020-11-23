@@ -15,6 +15,8 @@ const {
   deleteUser,
 } = require('../../../controllers/users');
 
+const { validateToken } = require('../../../controllers/auth');
+
 // @route /api/v1/users
 usersRouter
   .route('/')
@@ -33,9 +35,9 @@ usersRouter.param('username', async (req, res, next, username) => {
     const user = await User.findOne({ username });
 
     if (user) {
-      req.user = user;
+      req.queriedUser = user;
       const { password, isAdmin, ...filteredUser } = user.toObject();
-      req.filteredUser = filteredUser;
+      req.filteredQueriedUser = filteredUser;
       next();
     } else {
       res.status(404).json({
@@ -57,7 +59,7 @@ usersRouter.param('username', async (req, res, next, username) => {
 usersRouter
   .route('/:username')
   .get(getUser)
-  .put(checkEmptyPayload, validateInput, updateUser)
+  .put(checkEmptyPayload, validateInput, checkUsernameAvailability, updateUser)
   .delete(deleteUser);
 
 module.exports = usersRouter;
