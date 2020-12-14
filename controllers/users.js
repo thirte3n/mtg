@@ -318,9 +318,11 @@ exports.getUser = async (req, res, next) => {
  * @access  Private - owner or admin
  */
 exports.updateUser = async (req, res, next) => {
-  // HACK: You can't update only a select number of properties inside `counter`. In doing so, you will be able to update those property but will revert all the other properties inside `counter` to their default values.
-  // If you're going to change any value inside `counter`, you must send the complete `counter` object with all its properties and values.
-  // HACK: The same problem also goes for the userRooms array property
+  /**
+   * HACK: You can't update only a select number of properties inside `counter`. In doing so, you will be able to update those property but will revert all the other properties inside `counter` to their default values.
+   * If you're going to change any value inside `counter`, you must send the complete `counter` object with all its properties and values.
+   * HACK: The same problem also goes for the userRooms array property
+   */
   try {
     const updatedUser = await User.findOneAndUpdate(
       { username: req.queriedUser.username },

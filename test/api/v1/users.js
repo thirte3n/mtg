@@ -12,7 +12,6 @@ const server = require('../../../server');
 const expectCorrectErrorResponse = require('../../../utils/expectCorrectErrorResponse');
 
 describe('/api/v1/users routes', () => {
-  // TODO: Maybe seed fakeUsers before each test?
   beforeEach((done) => {
     User.deleteMany({}, (err) => {
       done();
